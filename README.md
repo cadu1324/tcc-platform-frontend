@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# TCC Platform - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web para gestão de projetos acadêmicos e Trabalhos de Conclusão de Curso (TCCs).
 
-Currently, two official plugins are available:
+## Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** - Biblioteca para construção de interfaces
+- **TypeScript** - Tipagem estática
+- **Vite** - Build tool e dev server
+- **Styled Components** - Estilização com CSS-in-JS
+- **React Router DOM** - Roteamento SPA
+- **Axios** - Requisições HTTP
+- **Context API** - Gerenciamento de estado global
 
-## React Compiler
+## Arquitetura de Componentes
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+O projeto segue uma arquitetura em camadas, do nível mais baixo ao mais alto:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+UI Library (ui/) → Components (components/) → Screens (screens/)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### UI Library (`src/ui/`)
+Componentes base do design system. Genéricos e reutilizáveis em qualquer contexto.
+- Button, Input, Card, Modal, Select, Table, Badge, Spinner
+- Theme com cores, espaçamentos e tipografia
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Components (`src/components/`)
+Componentes compostos que combinam elementos da UI Library.
+- **layout/** - Header, Sidebar, Layout
+- **auth/** - LoginForm, RegisterForm
+- **project/** - ProjectCard, ProjectList, ProjectForm
+- **delivery/** - DeliveryCard, DeliveryList
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Screens (`src/screens/`)
+Páginas completas que combinam Components.
+- **auth/** - Login, Register
+- **student/** - Dashboard, MyProjects
+- **advisor/** - Dashboard, MyStudents
+- **admin/** - Dashboard, ManageUsers
+
+## Como instalar
+
+```bash
+npm install
 ```
+
+## Como rodar
+
+```bash
+npm run dev
+```
+
+A aplicação estará disponível em `http://localhost:5173`.
+
+## Variáveis de ambiente
+
+Copie o arquivo de exemplo e configure:
+
+```bash
+cp .env.example .env
+```
+
+| Variável | Descrição | Padrão |
+|----------|-----------|--------|
+| `VITE_API_URL` | URL da API backend | `http://localhost:3333` |
+
+## Estrutura de Pastas
+
+```
+src/
+├── ui/                # Design system - componentes base
+│   ├── components/    # Button, Input, Card, Modal, etc.
+│   └── theme/         # Cores, espaçamentos, tipografia
+├── components/        # Componentes compostos
+│   ├── layout/        # Header, Sidebar, Layout
+│   ├── auth/          # LoginForm, RegisterForm
+│   ├── project/       # ProjectCard, ProjectList, ProjectForm
+│   └── delivery/      # DeliveryCard, DeliveryList
+├── screens/           # Páginas/telas
+│   ├── auth/          # Login, Register
+│   ├── student/       # Dashboard, MyProjects
+│   ├── advisor/       # Dashboard, MyStudents
+│   └── admin/         # Dashboard, ManageUsers
+├── contexts/          # Context API (AuthContext, ThemeContext)
+├── services/          # Chamadas à API com Axios
+├── hooks/             # Custom hooks (useAuth, useApi)
+├── routes/            # Configuração de rotas
+├── types/             # Tipos TypeScript
+├── utils/             # Funções utilitárias
+└── styles/            # Estilos globais
+```
+
+## Convenções do Projeto
+
+- **Nomenclatura:** Código em inglês, comentários e README em português
+- **Componentes:** Cada componente em sua pasta com `Component.tsx`, `Component.styles.ts` e `index.ts`
+- **Arquivos pequenos:** Máximo ~200 linhas por arquivo
+- **Barrel exports:** Cada diretório possui um `index.ts` para facilitar imports
+- **Styled Components:** Transient props com prefixo `$` (ex: `$variant`, `$size`)
+
+## Tipos de Usuário
+
+| Tipo | Descrição | Rotas |
+|------|-----------|-------|
+| `student` | Aluno | `/student/*` |
+| `advisor` | Orientador | `/advisor/*` |
+| `admin` | Administrador | `/admin/*` |
+
+## Scripts Disponíveis
+
+| Comando | Descrição |
+|---------|-----------|
+| `npm run dev` | Inicia o servidor de desenvolvimento |
+| `npm run build` | Gera o build de produção |
+| `npm run preview` | Visualiza o build de produção |
+| `npm run lint` | Executa o linter |
