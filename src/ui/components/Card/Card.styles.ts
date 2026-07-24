@@ -30,7 +30,7 @@ export const StyledCard = styled.div<StyledCardProps>`
     }
   }}
 
-  ${({ $clickable, theme }) =>
+  ${({ $clickable }) =>
     $clickable &&
     `
     cursor: pointer;

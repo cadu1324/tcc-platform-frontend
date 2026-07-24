@@ -1,11 +1,12 @@
-import { SelectHTMLAttributes, forwardRef } from 'react';
+import type { SelectHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 import {
   SelectWrapper,
   Label,
   StyledSelect,
   ErrorMessage,
-  SelectSize,
 } from './Select.styles';
+import type { SelectSize } from './Select.styles';
 
 export interface SelectOption {
   value: string;

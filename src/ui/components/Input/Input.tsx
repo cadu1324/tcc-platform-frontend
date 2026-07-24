@@ -1,12 +1,13 @@
-import { InputHTMLAttributes, forwardRef } from 'react';
+import type { InputHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 import {
   InputWrapper,
   Label,
   StyledInput,
   ErrorMessage,
   HelperText,
-  InputSize,
 } from './Input.styles';
+import type { InputSize } from './Input.styles';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;

@@ -1,5 +1,6 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
-import { StyledButton, ButtonVariant, ButtonSize } from './Button.styles';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { StyledButton } from './Button.styles';
+import type { ButtonVariant, ButtonSize } from './Button.styles';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
