@@ -1,14 +1,19 @@
-export type ProjectStatus = 'pending' | 'in_progress' | 'completed' | 'cancelled';
+export const ProjectStatus = {
+  IN_PROGRESS: 'in_progress',
+  COMPLETED: 'completed',
+  CANCELLED: 'cancelled',
+} as const;
+export type ProjectStatus = (typeof ProjectStatus)[keyof typeof ProjectStatus];
 
 export interface Project {
-  id: string;
+  id: number;
   title: string;
   description: string;
   status: ProjectStatus;
-  start_date: string;
-  expected_delivery_date: string;
-  student_id: string;
-  advisor_id: string;
+  start_date: string | null;
+  expected_delivery_date: string | null;
+  student_id: number;
+  advisor_id: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -16,13 +21,15 @@ export interface Project {
 export interface CreateProjectData {
   title: string;
   description: string;
-  expected_delivery_date: string;
-  advisor_id: string;
+  student_id: number;
+  advisor_id: number;
+  expected_delivery_date?: string;
 }
 
 export interface UpdateProjectData {
   title?: string;
   description?: string;
+  advisor_id?: number;
   status?: ProjectStatus;
   expected_delivery_date?: string;
 }
