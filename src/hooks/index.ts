@@ -11,3 +11,4 @@ export { useDeliveryById } from './useDeliveryById';
 export { useSubmitReview } from './useSubmitReview';
 export { useAdminDashboard } from './useAdminDashboard';
 export { useAllUsers } from './useAllUsers';
+export { useAdvisors } from './useAdvisors';

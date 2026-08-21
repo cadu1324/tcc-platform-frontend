@@ -1,7 +1,17 @@
 import type { ReactNode } from 'react';
+import styled from 'styled-components';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { Spinner } from '../ui';
 import { UserType } from '../types';
+
+const LoadingScreen = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: ${({ theme }) => theme.colors.background.default};
+`;
 
 interface PrivateRouteProps {
   children: ReactNode;
@@ -12,8 +22,7 @@ export function PrivateRoute({ children, allowedRoles }: PrivateRouteProps) {
   const { isAuthenticated, user, isLoading } = useAuth();
 
   if (isLoading) {
-    // TODO: Substituir por componente de loading
-    return <div>Carregando...</div>;
+    return <LoadingScreen><Spinner size="lg" /></LoadingScreen>;
   }
 
   if (!isAuthenticated) {
