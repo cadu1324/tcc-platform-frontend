@@ -1,4 +1,5 @@
-import { ReactNode, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
   Overlay,
@@ -8,8 +9,8 @@ import {
   CloseButton,
   ModalBody,
   ModalFooter,
-  ModalSize,
 } from './Modal.styles';
+import type { ModalSize } from './Modal.styles';
 
 export interface ModalProps {
   isOpen: boolean;

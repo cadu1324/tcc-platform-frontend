@@ -1,17 +1,14 @@
-import { ThemeProvider } from 'styled-components';
-import { theme } from './ui/theme';
-import { GlobalStyles } from './styles';
-import { AuthProvider } from './contexts';
-import { AppRoutes } from './routes';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { LoginPage } from './pages/Login';
+import { RegisterPage } from './pages/Register';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </ThemeProvider>
+    <Routes>
+      <Route path="/auth/login" element={<LoginPage />} />
+      <Route path="/auth/register" element={<RegisterPage />} />
+      <Route path="*" element={<Navigate to="/auth/login" replace />} />
+    </Routes>
   );
 }
 

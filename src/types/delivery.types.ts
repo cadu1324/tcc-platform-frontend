@@ -1,31 +1,36 @@
-export type DeliveryStatus = 'pending' | 'submitted' | 'approved' | 'rejected';
+export const DeliveryStatus = {
+  PENDING: 'pending',
+  SUBMITTED: 'submitted',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+} as const;
+export type DeliveryStatus = (typeof DeliveryStatus)[keyof typeof DeliveryStatus];
 
 export interface Delivery {
-  id: string;
-  project_id: string;
+  id: number;
+  project_id: number;
   title: string;
   description: string;
-  deadline: string;
+  deadline: string | null;
   status: DeliveryStatus;
   file_url: string | null;
-  feedback: string | null;
   submitted_at: string | null;
   created_at: string;
   updated_at: string;
 }
 
 export interface CreateDeliveryData {
-  project_id: string;
+  project_id: number;
   title: string;
   description: string;
-  deadline: string;
+  deadline?: string;
 }
 
-export interface SubmitDeliveryData {
-  file_url: string;
-}
-
-export interface ReviewDeliveryData {
-  status: 'approved' | 'rejected';
-  feedback: string;
+export interface UpdateDeliveryData {
+  title?: string;
+  description?: string;
+  deadline?: string;
+  status?: DeliveryStatus;
+  file_url?: string;
+  submitted_at?: string;
 }

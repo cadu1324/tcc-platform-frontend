@@ -1,7 +1,12 @@
-export type UserType = 'student' | 'advisor' | 'admin';
+export const UserType = {
+  STUDENT: 'student',
+  ADVISOR: 'advisor',
+  ADMIN: 'admin',
+} as const;
+export type UserType = (typeof UserType)[keyof typeof UserType];
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   user_type: UserType;

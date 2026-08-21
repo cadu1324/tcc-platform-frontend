@@ -1,12 +1,12 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import {
   StyledCard,
   CardHeader,
   CardTitle,
   CardContent,
   CardFooter,
-  CardVariant,
 } from './Card.styles';
+import type { CardVariant } from './Card.styles';
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: CardVariant;
