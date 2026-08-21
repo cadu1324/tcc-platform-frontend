@@ -5,8 +5,14 @@ import { PublicRoute } from './PublicRoute';
 import { Login } from '../screens/auth/Login';
 import { Register } from '../screens/auth/Register';
 
-import { Dashboard as StudentDashboard } from '../screens/student/Dashboard';
-import { MyProjects } from '../screens/student/MyProjects';
+import {
+  Dashboard as StudentDashboard,
+  MyProjects,
+  MyProject,
+  Deliveries,
+  Feedbacks,
+  Messages,
+} from '../screens/student';
 
 import { Dashboard as AdvisorDashboard } from '../screens/advisor/Dashboard';
 import { MyStudents } from '../screens/advisor/MyStudents';
@@ -22,6 +28,10 @@ export function AppRoutes() {
 
       <Route path="/student/dashboard" element={<PrivateRoute allowedRoles={['student']}><StudentDashboard /></PrivateRoute>} />
       <Route path="/student/projects" element={<PrivateRoute allowedRoles={['student']}><MyProjects /></PrivateRoute>} />
+      <Route path="/student/project" element={<PrivateRoute allowedRoles={['student']}><MyProject /></PrivateRoute>} />
+      <Route path="/student/deliveries" element={<PrivateRoute allowedRoles={['student']}><Deliveries /></PrivateRoute>} />
+      <Route path="/student/feedbacks" element={<PrivateRoute allowedRoles={['student']}><Feedbacks /></PrivateRoute>} />
+      <Route path="/student/messages" element={<PrivateRoute allowedRoles={['student']}><Messages /></PrivateRoute>} />
 
       <Route path="/advisor/dashboard" element={<PrivateRoute allowedRoles={['advisor']}><AdvisorDashboard /></PrivateRoute>} />
       <Route path="/advisor/students" element={<PrivateRoute allowedRoles={['advisor']}><MyStudents /></PrivateRoute>} />

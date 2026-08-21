@@ -11,10 +11,29 @@ const DashboardIcon = () => (
   </svg>
 );
 
-const ProjectIcon = () => (
+const FolderIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-    <polyline points="9 22 9 12 15 12 15 22" />
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+const PackageIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <polyline points="21 8 21 21 3 21 3 8" />
+    <rect x="1" y="3" width="22" height="5" />
+    <line x1="10" y1="12" x2="14" y2="12" />
+  </svg>
+);
+
+const StarIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+);
+
+const MessageIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
   </svg>
 );
 
@@ -45,7 +64,10 @@ interface NavItem {
 const navItemsByRole: Record<string, NavItem[]> = {
   student: [
     { label: 'Dashboard', path: '/student/dashboard', icon: <DashboardIcon /> },
-    { label: 'Meus Projetos', path: '/student/projects', icon: <ProjectIcon /> },
+    { label: 'Meu Projeto', path: '/student/project', icon: <FolderIcon /> },
+    { label: 'Entregas', path: '/student/deliveries', icon: <PackageIcon /> },
+    { label: 'Feedbacks', path: '/student/feedbacks', icon: <StarIcon /> },
+    { label: 'Mensagens', path: '/student/messages', icon: <MessageIcon /> },
   ],
   advisor: [
     { label: 'Dashboard', path: '/advisor/dashboard', icon: <DashboardIcon /> },
@@ -64,7 +86,7 @@ export function Sidebar() {
 
   if (!user) return null;
 
-  const navItems = navItemsByRole[user.user_type] || [];
+  const navItems = navItemsByRole[user.user_type] ?? [];
 
   return (
     <SidebarContainer>

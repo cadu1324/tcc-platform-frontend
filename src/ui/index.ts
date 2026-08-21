@@ -4,6 +4,7 @@ export {
   Input,
   Card,
   CardHeader,
+  CardTitle,
   CardContent,
   CardFooter,
   Modal,
@@ -11,12 +12,19 @@ export {
   Table,
   Badge,
   Spinner,
+  Avatar,
+  ProgressBar,
+  StatCard,
+  Timeline,
+  Chips,
+  UploadZone,
 } from './components';
 
 export type {
   ButtonProps,
   InputProps,
   CardProps,
+  CardVariant,
   ModalProps,
   SelectProps,
   SelectOption,
@@ -27,6 +35,20 @@ export type {
   BadgeSize,
   SpinnerProps,
   SpinnerSize,
+  AvatarProps,
+  AvatarSize,
+  AvatarScheme,
+  ProgressBarProps,
+  ProgressBarVariant,
+  ProgressBarColor,
+  StatCardProps,
+  StatCardBadge,
+  TimelineProps,
+  TimelineStep,
+  StepStatus,
+  ChipsProps,
+  ChipOption,
+  UploadZoneProps,
 } from './components';
 
 // Theme

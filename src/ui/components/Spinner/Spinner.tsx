@@ -1,4 +1,5 @@
-import { SpinnerWrapper, StyledSpinner, SpinnerSize } from './Spinner.styles';
+import { SpinnerWrapper, StyledSpinner } from './Spinner.styles';
+import type { SpinnerSize } from './Spinner.styles';
 
 export interface SpinnerProps {
   size?: SpinnerSize;

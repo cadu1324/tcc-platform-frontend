@@ -1,4 +1,4 @@
-import { Project } from '../../../types';
+import type { Project } from '../../../types';
 import { Spinner } from '../../../ui';
 import { ProjectCard } from '../ProjectCard';
 import {

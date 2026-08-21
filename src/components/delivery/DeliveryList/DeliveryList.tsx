@@ -1,4 +1,4 @@
-import { Delivery } from '../../../types';
+import type { Delivery } from '../../../types';
 import { Spinner } from '../../../ui';
 import { DeliveryCard } from '../DeliveryCard';
 import {

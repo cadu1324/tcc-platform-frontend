@@ -1,4 +1,4 @@
-import { Project } from '../../../types';
+import type { Project } from '../../../types';
 import { Card, CardContent, Badge } from '../../../ui';
 import { formatDate } from '../../../utils/formatDate';
 import {

@@ -4,9 +4,9 @@ import {
   useState,
   useCallback,
   useEffect,
-  ReactNode,
 } from 'react';
-import { User } from '../types';
+import type { ReactNode } from 'react';
+import type { User } from '../types';
 import { getStoredToken, setStoredToken, removeStoredToken, getStoredUser, setStoredUser, removeStoredUser } from '../utils/localStorage';
 
 interface LoginCredentials {
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     // Simulação de login - será substituído pela chamada real
     const mockUser: User = {
-      id: '1',
+      id: 1,
       name: 'Usuário Teste',
       email: credentials.email,
       user_type: 'student',

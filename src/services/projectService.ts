@@ -1,5 +1,5 @@
 import { api } from './api';
-import { Project, CreateProjectData, UpdateProjectData } from '../types';
+import type { Project, CreateProjectData, UpdateProjectData } from '../types';
 
 export const projectService = {
   async getAll(): Promise<Project[]> {

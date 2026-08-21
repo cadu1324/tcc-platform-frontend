@@ -12,3 +12,8 @@ export interface CreateFeedbackData {
   comment: string;
   grade: number;
 }
+
+export interface FeedbackWithRelations extends Feedback {
+  advisor_name: string;
+  delivery_title: string;
+}

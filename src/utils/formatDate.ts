@@ -1,14 +1,17 @@
-export function formatDate(dateString: string): string {
+export function formatDate(dateString: string | null): string {
+  if (!dateString) return '—';
   const date = new Date(dateString);
   return date.toLocaleDateString('pt-BR');
 }
 
-export function formatDateTime(dateString: string): string {
+export function formatDateTime(dateString: string | null): string {
+  if (!dateString) return '—';
   const date = new Date(dateString);
   return date.toLocaleString('pt-BR');
 }
 
-export function formatRelativeDate(dateString: string): string {
+export function formatRelativeDate(dateString: string | null): string {
+  if (!dateString) return '—';
   const date = new Date(dateString);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
@@ -20,4 +23,13 @@ export function formatRelativeDate(dateString: string): string {
   if (diffDays < 30) return `${Math.floor(diffDays / 7)} semanas atrás`;
 
   return formatDate(dateString);
+}
+
+export function daysUntil(dateString: string | null): number | null {
+  if (!dateString) return null;
+  const target = new Date(dateString);
+  target.setHours(0, 0, 0, 0);
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 }

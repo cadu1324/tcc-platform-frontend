@@ -34,3 +34,11 @@ export interface UpdateDeliveryData {
   file_url?: string;
   submitted_at?: string;
 }
+
+export interface SubmitDeliveryData {
+  file_url: string;
+}
+
+export interface ReviewDeliveryData {
+  status: typeof DeliveryStatus.APPROVED | typeof DeliveryStatus.REJECTED;
+}

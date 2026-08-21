@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
-import { StyledBadge, BadgeVariant, BadgeSize } from './Badge.styles';
+import type { ReactNode } from 'react';
+import { StyledBadge } from './Badge.styles';
+import type { BadgeVariant, BadgeSize } from './Badge.styles';
 
 export interface BadgeProps {
   children: ReactNode;

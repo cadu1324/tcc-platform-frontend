@@ -1,4 +1,4 @@
-import { User } from '../types';
+import type { User } from '../types';
 
 const TOKEN_KEY = '@tcc-platform:token';
 const USER_KEY = '@tcc-platform:user';

@@ -4,8 +4,8 @@ import {
   useState,
   useCallback,
   useEffect,
-  ReactNode,
 } from 'react';
+import type { ReactNode } from 'react';
 
 type ThemeMode = 'light' | 'dark';
 

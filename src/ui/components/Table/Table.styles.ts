@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const TableContainer = styled.div`
   width: 100%;
   overflow-x: auto;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border: 1px solid ${({ theme }) => theme.colors.border.main};
 `;
 
 export const StyledTable = styled.table`
@@ -14,40 +14,40 @@ export const StyledTable = styled.table`
 `;
 
 export const TableHead = styled.thead`
-  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  background-color: ${({ theme }) => theme.colors.border.light};
 `;
 
 export const TableBody = styled.tbody`
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background.paper};
 `;
 
 export const TableRow = styled.tr`
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border.main};
 
   &:last-child {
     border-bottom: none;
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.backgroundAlt};
+    background-color: ${({ theme }) => theme.colors.border.light};
   }
 `;
 
 export const TableHeader = styled.th`
   padding: ${({ theme }) => theme.spacing.md};
   text-align: left;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.secondary};
   white-space: nowrap;
 `;
 
 export const TableCell = styled.td`
   padding: ${({ theme }) => theme.spacing.md};
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 export const EmptyMessage = styled.div`
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;

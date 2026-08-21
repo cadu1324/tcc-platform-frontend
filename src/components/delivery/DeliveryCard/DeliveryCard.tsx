@@ -1,4 +1,4 @@
-import { Delivery } from '../../../types';
+import type { Delivery } from '../../../types';
 import { Card, CardContent, Badge } from '../../../ui';
 import { formatDate } from '../../../utils/formatDate';
 import {

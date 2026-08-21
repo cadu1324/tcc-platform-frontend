@@ -1,10 +1,11 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { Button, Input } from '../../../ui';
-import { CreateProjectData } from '../../../types';
+import type { CreateProjectData } from '../../../types';
 import { FormContainer, FormActions } from './ProjectForm.styles';
 
 interface ProjectFormProps {
-  onSubmit: (data: CreateProjectData) => Promise<void>;
+  onSubmit: (data: Omit<CreateProjectData, 'student_id'>) => Promise<void>;
   onCancel: () => void;
 }
 
@@ -24,7 +25,7 @@ export function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
         title,
         description,
         expected_delivery_date: expectedDate,
-        advisor_id: advisorId,
+        advisor_id: parseInt(advisorId, 10),
       });
     } finally {
       setIsSubmitting(false);
