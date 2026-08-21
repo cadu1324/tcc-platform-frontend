@@ -9,6 +9,7 @@ export const LayoutContainer = styled.div`
 export const LayoutBody = styled.div`
   display: flex;
   flex: 1;
+  overflow: visible;
 `;
 
 export const LayoutContent = styled.main`

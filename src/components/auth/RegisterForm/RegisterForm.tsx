@@ -1,88 +1,128 @@
-import { FormEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Link } from 'react-router-dom';
 import { Button, Input, Select } from '../../../ui';
+import { useRegister } from '../../../hooks/useRegister';
 import { UserType } from '../../../types';
-import { FormContainer, FormTitle, FormFooter, ErrorMessage } from './RegisterForm.styles';
+import {
+  FormContainer,
+  FormLogo,
+  FormSubtitle,
+  FormGrid,
+  InfoBox,
+  FormFooter,
+  ErrorBanner,
+} from './RegisterForm.styles';
 
-interface RegisterFormProps {
-  onSubmit: (data: {
-    name: string;
-    email: string;
-    password: string;
-    user_type: UserType;
-  }) => Promise<void>;
-  error?: string | null;
-}
+const registerSchema = z
+  .object({
+    name: z.string().min(2, 'Nome obrigatório'),
+    registration: z.string().min(1, 'Matrícula obrigatória'),
+    email: z.string().email('E-mail inválido'),
+    password: z
+      .string()
+      .min(8, 'Mínimo 8 caracteres')
+      .regex(/[A-Z]/, '1 letra maiúscula obrigatória')
+      .regex(/[0-9]/, '1 número obrigatório'),
+    confirmPassword: z.string().min(1, 'Confirme a senha'),
+    user_type: z.enum([UserType.STUDENT, UserType.ADVISOR], {
+      message: 'Selecione o perfil',
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'As senhas não coincidem',
+    path: ['confirmPassword'],
+  });
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 const userTypeOptions = [
-  { value: 'student', label: 'Aluno' },
-  { value: 'advisor', label: 'Orientador' },
+  { value: UserType.STUDENT, label: 'Aluno' },
+  { value: UserType.ADVISOR, label: 'Orientador' },
 ];
 
-export function RegisterForm({ onSubmit, error }: RegisterFormProps) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState<UserType>('student');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export function RegisterForm() {
+  const { mutate, isPending, error } = useRegister();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>({ resolver: zodResolver(registerSchema) });
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      await onSubmit({ name, email, password, user_type: userType });
-    } finally {
-      setIsSubmitting(false);
-    }
+  function onSubmit(data: RegisterFormData): void {
+    mutate({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      user_type: data.user_type,
+    });
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <FormTitle>Cadastro</FormTitle>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormLogo>TCC Platform</FormLogo>
+      <FormSubtitle>Criar conta</FormSubtitle>
 
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && <ErrorBanner>{error.message}</ErrorBanner>}
+
+      <FormGrid>
+        <Input
+          label="Nome completo"
+          fullWidth
+          error={errors.name?.message}
+          {...register('name')}
+        />
+        <Input
+          label="Matrícula"
+          fullWidth
+          error={errors.registration?.message}
+          {...register('registration')}
+        />
+      </FormGrid>
 
       <Input
-        label="Nome completo"
-        type="text"
-        placeholder="Seu nome"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-
-      <Input
-        label="E-mail"
+        label="E-mail institucional"
         type="email"
-        placeholder="seu@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
+        fullWidth
+        error={errors.email?.message}
+        {...register('email')}
       />
 
-      <Input
-        label="Senha"
-        type="password"
-        placeholder="Mínimo 6 caracteres"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+      <FormGrid>
+        <Input
+          label="Senha"
+          type="password"
+          fullWidth
+          error={errors.password?.message}
+          {...register('password')}
+        />
+        <Input
+          label="Confirmar"
+          type="password"
+          fullWidth
+          error={errors.confirmPassword?.message}
+          {...register('confirmPassword')}
+        />
+      </FormGrid>
 
       <Select
-        label="Tipo de usuário"
+        label="Perfil"
         options={userTypeOptions}
-        value={userType}
-        onChange={(e) => setUserType(e.target.value as UserType)}
+        placeholder="Selecione o perfil"
+        fullWidth
+        error={errors.user_type?.message}
+        {...register('user_type')}
       />
 
-      <Button type="submit" fullWidth disabled={isSubmitting}>
-        {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
+      <InfoBox>Senha: mín. 8 caracteres, 1 maiúscula e 1 número.</InfoBox>
+
+      <Button type="submit" fullWidth disabled={isPending}>
+        {isPending ? 'Criando conta...' : 'Criar conta'}
       </Button>
 
       <FormFooter>
-        Já tem conta? <Link to="/login">Entrar</Link>
+        Já tem conta? <Link to="/login">Fazer login</Link>
       </FormFooter>
     </FormContainer>
   );

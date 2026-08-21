@@ -1,60 +1,80 @@
-import { FormEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Link } from 'react-router-dom';
 import { Button, Input } from '../../../ui';
-import { FormContainer, FormTitle, FormFooter, ErrorMessage } from './LoginForm.styles';
+import { useLogin } from '../../../hooks/useLogin';
+import {
+  FormContainer,
+  FormLogo,
+  FormSubtitle,
+  RememberRow,
+  ForgotLink,
+  FormFooter,
+  FormDivider,
+  FormFootnote,
+  ErrorBanner,
+} from './LoginForm.styles';
 
-interface LoginFormProps {
-  onSubmit: (email: string, password: string) => Promise<void>;
-  error?: string | null;
-}
+const loginSchema = z.object({
+  email: z.string().email('E-mail inválido'),
+  password: z.string().min(1, 'Senha obrigatória'),
+});
 
-export function LoginForm({ onSubmit, error }: LoginFormProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+type LoginFormData = z.infer<typeof loginSchema>;
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setIsSubmitting(true);
+export function LoginForm() {
+  const { mutate, isPending, error } = useLogin();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
 
-    try {
-      await onSubmit(email, password);
-    } finally {
-      setIsSubmitting(false);
-    }
+  function onSubmit(data: LoginFormData): void {
+    mutate({ email: data.email, password: data.password });
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <FormTitle>Entrar</FormTitle>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormLogo>TCC Platform</FormLogo>
+      <FormSubtitle>Gestão de Projetos Acadêmicos · Uni-FACEF</FormSubtitle>
 
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && <ErrorBanner>{error.message}</ErrorBanner>}
 
       <Input
-        label="E-mail"
+        label="E-mail institucional"
         type="email"
-        placeholder="seu@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
+        fullWidth
+        error={errors.email?.message}
+        {...register('email')}
       />
 
       <Input
         label="Senha"
         type="password"
-        placeholder="Sua senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
+        fullWidth
+        error={errors.password?.message}
+        {...register('password')}
       />
 
-      <Button type="submit" fullWidth disabled={isSubmitting}>
-        {isSubmitting ? 'Entrando...' : 'Entrar'}
+      <RememberRow>
+        <label>
+          <input type="checkbox" /> Lembrar acesso
+        </label>
+        <ForgotLink to="/forgot-password">Esqueci a senha</ForgotLink>
+      </RememberRow>
+
+      <Button type="submit" fullWidth disabled={isPending}>
+        {isPending ? 'Entrando...' : 'Entrar'}
       </Button>
 
       <FormFooter>
         Não tem conta? <Link to="/register">Cadastre-se</Link>
       </FormFooter>
+
+      <FormDivider />
+      <FormFootnote>Uni-FACEF · Bacharelado em Sistemas de Informação</FormFootnote>
     </FormContainer>
   );
 }

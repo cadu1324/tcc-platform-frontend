@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const RegisterContainer = styled.div`
+export const AuthContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,12 +8,10 @@ export const RegisterContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.background.default};
 `;
 
-export const RegisterCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: ${({ theme }) => theme.spacing.xxl};
+export const AuthCard = styled.div`
+  width: 420px;
   background-color: ${({ theme }) => theme.colors.background.paper};
+  border: 1px solid ${({ theme }) => theme.colors.border.dark};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 36px 32px;
 `;
