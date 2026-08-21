@@ -46,12 +46,30 @@ const UsersIcon = () => (
   </svg>
 );
 
+const FileIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+    <polyline points="10 9 9 9 8 9" />
+  </svg>
+);
+
 const ManageUsersIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <circle cx="9" cy="8" r="4" />
     <path d="M2 20v-2a7 7 0 0 1 14 0v2" />
     <circle cx="19" cy="18" r="3" />
     <path d="M19 15v-1m0 7v-1m-3-3h1m5 0h1" />
+  </svg>
+);
+
+const ChartIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <line x1="18" y1="20" x2="18" y2="10" />
+    <line x1="12" y1="20" x2="12" y2="4" />
+    <line x1="6" y1="20" x2="6" y2="14" />
   </svg>
 );
 
@@ -72,10 +90,12 @@ const navItemsByRole: Record<string, NavItem[]> = {
   advisor: [
     { label: 'Dashboard', path: '/advisor/dashboard', icon: <DashboardIcon /> },
     { label: 'Meus Orientandos', path: '/advisor/students', icon: <UsersIcon /> },
+    { label: 'Entregas para Revisar', path: '/advisor/deliveries', icon: <FileIcon /> },
   ],
   admin: [
     { label: 'Dashboard', path: '/admin/dashboard', icon: <DashboardIcon /> },
     { label: 'Gerenciar Usuários', path: '/admin/users', icon: <ManageUsersIcon /> },
+    { label: 'Relatórios', path: '/admin/reports', icon: <ChartIcon /> },
   ],
 };
 

@@ -1,24 +1,24 @@
 import styled from 'styled-components';
 
-export const DashboardContainer = styled.div`
+export const ReportsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-export const DashboardHeader = styled.div`
+export const ReportsHeader = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
 `;
 
-export const DashboardTitle = styled.h1`
+export const ReportsTitle = styled.h1`
   font-size: ${({ theme }) => theme.typography.fontSize.xxl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text.primary};
 `;
 
-export const DashboardSubtitle = styled.p`
+export const ReportsSubtitle = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
@@ -40,7 +40,7 @@ export const StatsGrid = styled.div`
   }
 `;
 
-export const ContentGrid = styled.div`
+export const SummaryGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: ${({ theme }) => theme.spacing.md};
@@ -50,7 +50,7 @@ export const ContentGrid = styled.div`
   }
 `;
 
-export const AlertRow = styled.div`
+export const MetricRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,30 +62,13 @@ export const AlertRow = styled.div`
   }
 `;
 
-export const AlertLabel = styled.span`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.text.primary};
-`;
-
-export const AlertCount = styled.span`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
-  color: ${({ theme }) => theme.colors.error.main};
-`;
-
-export const NeutralCount = styled.span`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
-  color: ${({ theme }) => theme.colors.text.primary};
-`;
-
-export const ButtonRow = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.md};
-`;
-
-export const EmptyText = styled.p`
+export const MetricLabel = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.text.secondary};
-  text-align: center;
-  padding: ${({ theme }) => theme.spacing.md} 0;
+`;
+
+export const MetricValue = styled.span`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
 `;

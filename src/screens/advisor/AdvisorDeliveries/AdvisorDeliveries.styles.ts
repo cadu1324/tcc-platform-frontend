@@ -1,65 +1,57 @@
 import styled from 'styled-components';
 
-export const MyStudentsContainer = styled.div`
+export const AdvisorDeliveriesContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-export const MyStudentsHeader = styled.div`
+export const PageHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-export const MyStudentsTitle = styled.h1`
+export const PageTitle = styled.h1`
   font-size: ${({ theme }) => theme.typography.fontSize.xxl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text.primary};
 `;
 
-export const StudentsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: ${({ theme }) => theme.spacing.md};
+export const DeliveriesList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
-export const StudentCardHeader = styled.div`
+export const DeliveryRow = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.background.paper};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.md};
 `;
 
-export const StudentInfo = styled.div`
+export const DeliveryInfo = styled.div`
   flex: 1;
   min-width: 0;
 `;
 
-export const StudentName = styled.p`
+export const DeliveryTitle = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.md};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   color: ${({ theme }) => theme.colors.text.primary};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
-export const ProjectTitle = styled.p`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.text.secondary};
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-export const ProjectMeta = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: ${({ theme }) => theme.spacing.sm};
+export const DeliveryMeta = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.text.disabled};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  margin-top: 2px;
 `;
 
 export const EmptyText = styled.p`
