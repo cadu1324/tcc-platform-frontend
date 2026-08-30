@@ -21,8 +21,9 @@ export const TableBody = styled.tbody`
   background-color: ${({ theme }) => theme.colors.background.paper};
 `;
 
-export const TableRow = styled.tr`
+export const TableRow = styled.tr<{ $clickable?: boolean }>`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.main};
+  cursor: ${({ $clickable }) => ($clickable ? 'pointer' : 'default')};
 
   &:last-child {
     border-bottom: none;

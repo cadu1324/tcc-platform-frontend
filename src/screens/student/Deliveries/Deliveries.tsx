@@ -3,8 +3,9 @@ import { useMyProject } from '../../../hooks/useMyProject';
 import { useProjectDeliveries } from '../../../hooks/useProjectDeliveries';
 import { Layout } from '../../../components/layout';
 import { Chips, Spinner } from '../../../ui';
-import { DeliveryCard } from '../../../components/delivery';
+import { DeliveryCard, DeliveryFormDialog, SubmitDeliveryDialog } from '../../../components/delivery';
 import type { ChipOption } from '../../../ui';
+import { DeliveryStatus } from '../../../types';
 import type { Delivery } from '../../../types';
 import {
   DeliveriesContainer,
@@ -43,6 +44,7 @@ export function Deliveries() {
       <DeliveriesContainer>
         <DeliveriesHeader>
           <DeliveriesTitle>Entregas</DeliveriesTitle>
+          {project && <DeliveryFormDialog projectId={project.id} />}
         </DeliveriesHeader>
 
         <Chips options={optionsWithCount} value={filter} onChange={setFilter} />
@@ -54,7 +56,17 @@ export function Deliveries() {
         ) : (
           <DeliveriesGrid>
             {filtered.map((delivery) => (
-              <DeliveryCard key={delivery.id} delivery={delivery} />
+              <DeliveryCard
+                key={delivery.id}
+                delivery={delivery}
+                action={
+                  project &&
+                  (delivery.status === DeliveryStatus.PENDING ||
+                    delivery.status === DeliveryStatus.REJECTED) ? (
+                    <SubmitDeliveryDialog delivery={delivery} projectId={project.id} />
+                  ) : undefined
+                }
+              />
             ))}
           </DeliveriesGrid>
         )}

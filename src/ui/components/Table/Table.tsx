@@ -21,6 +21,7 @@ export interface TableProps<T> {
   data: T[];
   keyExtractor: (item: T) => string;
   emptyMessage?: string;
+  onRowClick?: (item: T) => void;
 }
 
 export function Table<T>({
@@ -28,6 +29,7 @@ export function Table<T>({
   data,
   keyExtractor,
   emptyMessage = 'Nenhum dado encontrado',
+  onRowClick,
 }: TableProps<T>) {
   if (data.length === 0) {
     return (
@@ -49,7 +51,11 @@ export function Table<T>({
         </TableHead>
         <TableBody>
           {data.map((item) => (
-            <TableRow key={keyExtractor(item)}>
+            <TableRow
+              key={keyExtractor(item)}
+              $clickable={!!onRowClick}
+              onClick={onRowClick ? () => onRowClick(item) : undefined}
+            >
               {columns.map((column) => (
                 <TableCell key={column.key}>
                   {column.render

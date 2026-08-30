@@ -18,9 +18,10 @@ import {
   MyStudents,
   AdvisorDeliveries,
   ReviewDelivery,
+  Messages as AdvisorMessages,
 } from '../screens/advisor';
 
-import { Dashboard as AdminDashboard, ManageUsers, Reports } from '../screens/admin';
+import { Dashboard as AdminDashboard, ManageUsers, UserDetail, Reports } from '../screens/admin';
 
 export function AppRoutes() {
   return (
@@ -40,9 +41,11 @@ export function AppRoutes() {
       <Route path="/advisor/students" element={<PrivateRoute allowedRoles={['advisor']}><MyStudents /></PrivateRoute>} />
       <Route path="/advisor/deliveries" element={<PrivateRoute allowedRoles={['advisor']}><AdvisorDeliveries /></PrivateRoute>} />
       <Route path="/advisor/review/:deliveryId" element={<PrivateRoute allowedRoles={['advisor']}><ReviewDelivery /></PrivateRoute>} />
+      <Route path="/advisor/messages" element={<PrivateRoute allowedRoles={['advisor']}><AdvisorMessages /></PrivateRoute>} />
 
       <Route path="/admin/dashboard" element={<PrivateRoute allowedRoles={['admin']}><AdminDashboard /></PrivateRoute>} />
       <Route path="/admin/users" element={<PrivateRoute allowedRoles={['admin']}><ManageUsers /></PrivateRoute>} />
+      <Route path="/admin/users/:userId" element={<PrivateRoute allowedRoles={['admin']}><UserDetail /></PrivateRoute>} />
       <Route path="/admin/reports" element={<PrivateRoute allowedRoles={['admin']}><Reports /></PrivateRoute>} />
 
       <Route path="/" element={<Navigate to="/login" replace />} />

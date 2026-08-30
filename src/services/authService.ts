@@ -1,23 +1,7 @@
-import { api } from './api';
-import type {
-  AuthResponse,
-  LoginCredentials,
-  RegisterData,
-} from '../types';
+import { apiPost } from './httpClient';
+import type { AuthResponse, LoginCredentials, RegisterData } from '../types';
 
 export const authService = {
-  async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('/auth/login', credentials);
-    return response.data;
-  },
-
-  async register(data: RegisterData): Promise<AuthResponse> {
-    const response = await api.post<AuthResponse>('/auth/register', data);
-    return response.data;
-  },
-
-  async getProfile(): Promise<AuthResponse['user']> {
-    const response = await api.get('/auth/profile');
-    return response.data;
-  },
+  login: (credentials: LoginCredentials) => apiPost<AuthResponse>('/auth/login', credentials),
+  register: (payload: RegisterData) => apiPost<AuthResponse>('/auth/register', payload),
 };

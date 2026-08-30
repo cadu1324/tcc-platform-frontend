@@ -91,6 +91,7 @@ const navItemsByRole: Record<string, NavItem[]> = {
     { label: 'Dashboard', path: '/advisor/dashboard', icon: <DashboardIcon /> },
     { label: 'Meus Orientandos', path: '/advisor/students', icon: <UsersIcon /> },
     { label: 'Entregas para Revisar', path: '/advisor/deliveries', icon: <FileIcon /> },
+    { label: 'Mensagens', path: '/advisor/messages', icon: <MessageIcon /> },
   ],
   admin: [
     { label: 'Dashboard', path: '/admin/dashboard', icon: <DashboardIcon /> },

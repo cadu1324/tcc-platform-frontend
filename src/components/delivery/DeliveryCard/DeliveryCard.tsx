@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Delivery } from '../../../types';
 import { Card, CardContent, Badge } from '../../../ui';
 import { formatDate } from '../../../utils/formatDate';
@@ -7,6 +8,7 @@ import {
   DeliveryCardTitle,
   DeliveryCardDescription,
   DeliveryCardFooter,
+  DeliveryCardActions,
 } from './DeliveryCard.styles';
 
 const statusLabels: Record<string, string> = {
@@ -26,9 +28,10 @@ const statusVariants: Record<string, 'info' | 'warning' | 'success' | 'error'> =
 interface DeliveryCardProps {
   delivery: Delivery;
   onClick?: () => void;
+  action?: ReactNode;
 }
 
-export function DeliveryCard({ delivery, onClick }: DeliveryCardProps) {
+export function DeliveryCard({ delivery, onClick, action }: DeliveryCardProps) {
   return (
     <Card onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
       <CardContent>
@@ -50,6 +53,8 @@ export function DeliveryCard({ delivery, onClick }: DeliveryCardProps) {
               <span>Enviada em: {formatDate(delivery.submitted_at)}</span>
             )}
           </DeliveryCardFooter>
+
+          {action && <DeliveryCardActions>{action}</DeliveryCardActions>}
         </DeliveryCardContainer>
       </CardContent>
     </Card>

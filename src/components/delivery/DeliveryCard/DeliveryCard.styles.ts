@@ -30,3 +30,9 @@ export const DeliveryCardFooter = styled.div`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
+
+export const DeliveryCardActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-top: ${({ theme }) => theme.spacing.sm};
+`;

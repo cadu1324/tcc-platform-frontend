@@ -1,13 +1,9 @@
 export {
-  getStoredToken,
-  setStoredToken,
-  removeStoredToken,
+  getToken,
+  setToken,
   getStoredUser,
   setStoredUser,
-  removeStoredUser,
-  clearStorage,
-} from './localStorage';
+  clearSession,
+} from './storage';
 
-export { formatDate, formatDateTime, formatRelativeDate } from './formatDate';
-
-export { isValidEmail, isValidPassword, isRequired } from './validators';
+export { formatDate, formatDateTime, formatRelativeDate, daysUntil } from './formatDate';

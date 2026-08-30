@@ -4,7 +4,7 @@ import { deliveryService } from '../services/deliveryService';
 export function useProjectDeliveries(projectId: number | undefined) {
   return useQuery({
     queryKey: ['project-deliveries', projectId],
-    queryFn: () => deliveryService.getByProject(projectId!.toString()),
+    queryFn: () => deliveryService.getByProject(projectId!),
     enabled: projectId !== undefined,
   });
 }

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useAllUsers } from '../../../hooks/useAllUsers';
 import { Layout } from '../../../components/layout';
 import { Table, Badge, Spinner } from '../../../ui';
@@ -53,6 +54,7 @@ const columns: TableColumn<User>[] = [
 
 export function ManageUsers() {
   const { data: users, isLoading } = useAllUsers();
+  const navigate = useNavigate();
 
   return (
     <Layout>
@@ -69,6 +71,7 @@ export function ManageUsers() {
             data={users ?? []}
             keyExtractor={(u) => u.id.toString()}
             emptyMessage="Nenhum usuário cadastrado."
+            onRowClick={(user) => navigate(`/admin/users/${user.id}`)}
           />
         )}
       </ManageUsersContainer>

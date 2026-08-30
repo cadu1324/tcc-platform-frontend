@@ -7,8 +7,8 @@ export function useMyProject() {
   return useQuery({
     queryKey: ['my-project', user?.id],
     queryFn: async () => {
-      const projects = await projectService.getByStudent(user!.id.toString());
-      return projects[0] ?? null;
+      const projects = await projectService.getAll();
+      return projects.find((project) => project.student_id === user!.id) ?? null;
     },
     enabled: !!user,
   });

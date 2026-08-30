@@ -1,8 +1,9 @@
-export { api } from './api';
+export { httpClient } from './httpClient';
 export { authService } from './authService';
 export { userService } from './userService';
 export { projectService } from './projectService';
 export { deliveryService } from './deliveryService';
 export { milestoneService } from './milestoneService';
 export { feedbackService } from './feedbackService';
+export { messageService } from './messageService';
 export { dashboardService } from './dashboardService';

@@ -6,7 +6,10 @@ export function useAdvisorProjects() {
   const { user } = useAuth();
   return useQuery({
     queryKey: ['advisor-projects', user?.id],
-    queryFn: () => projectService.getByAdvisor(user!.id.toString()),
+    queryFn: async () => {
+      const projects = await projectService.getAll();
+      return projects.filter((project) => project.advisor_id === user!.id);
+    },
     enabled: !!user,
   });
 }

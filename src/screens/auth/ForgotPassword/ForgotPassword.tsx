@@ -27,7 +27,7 @@ export function ForgotPassword() {
     resolver: zodResolver(schema),
   });
 
-  function onSubmit(_data: FormData) {
+  function onSubmit() {
     // Integração futura com endpoint de recuperação de senha
     setSubmitted(true);
   }

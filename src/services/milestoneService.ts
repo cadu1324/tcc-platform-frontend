@@ -1,19 +1,10 @@
-import { api } from './api';
+import { apiGet, apiPost, apiPut, apiDelete } from './httpClient';
 import type { Milestone, CreateMilestoneData, UpdateMilestoneData } from '../types';
 
 export const milestoneService = {
-  async getByProject(projectId: number): Promise<Milestone[]> {
-    const response = await api.get<Milestone[]>(`/milestones/project/${projectId}`);
-    return response.data;
-  },
-
-  async create(data: CreateMilestoneData): Promise<Milestone> {
-    const response = await api.post<Milestone>('/milestones', data);
-    return response.data;
-  },
-
-  async update(id: number, data: UpdateMilestoneData): Promise<Milestone> {
-    const response = await api.put<Milestone>(`/milestones/${id}`, data);
-    return response.data;
-  },
+  getByProject: (projectId: number) => apiGet<Milestone[]>(`/milestones/project/${projectId}`),
+  getById: (id: number) => apiGet<Milestone>(`/milestones/${id}`),
+  create: (payload: CreateMilestoneData) => apiPost<Milestone>('/milestones', payload),
+  update: (id: number, payload: UpdateMilestoneData) => apiPut<Milestone>(`/milestones/${id}`, payload),
+  remove: (id: number) => apiDelete<void>(`/milestones/${id}`),
 };

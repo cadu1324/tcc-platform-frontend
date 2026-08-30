@@ -1,24 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from '../types';
-import { getToken, setToken, removeToken } from '../lib/tokenStorage';
-import { getStoredUser, setStoredUser, removeStoredUser } from '../utils/localStorage';
+import { setToken, getToken, getStoredUser, setStoredUser, clearSession } from '../utils/storage';
 import { AuthContext } from './authContext';
 
+function loadInitialUser(): User | null {
+  const storedUser = getStoredUser();
+  const token = getToken();
+  return storedUser && token ? storedUser : null;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const storedUser = getStoredUser();
-    const token = getToken();
-
-    if (storedUser && token) {
-      setUser(storedUser);
-    }
-
-    setIsLoading(false);
-  }, []);
+  const [user, setUser] = useState<User | null>(loadInitialUser);
 
   function setSession(newUser: User, token: string): void {
     setToken(token);
@@ -27,13 +20,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   function logout(): void {
-    removeToken();
-    removeStoredUser();
+    clearSession();
     setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, setSession, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading: false, setSession, logout }}>
       {children}
     </AuthContext.Provider>
   );

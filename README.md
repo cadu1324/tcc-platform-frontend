@@ -82,14 +82,15 @@ src/
 │   ├── student/       # Dashboard, MyProjects
 │   ├── advisor/       # Dashboard, MyStudents
 │   └── admin/         # Dashboard, ManageUsers
-├── contexts/          # Context API (AuthContext, ThemeContext)
-├── services/          # Chamadas à API com Axios
-├── hooks/             # Custom hooks (useAuth, useApi)
+├── context/           # Context API (AuthContext, ThemeContext)
+├── services/          # Camada de API: httpClient + um service por recurso
+├── hooks/             # Custom hooks (useAuth, React Query)
 ├── routes/            # Configuração de rotas
 ├── types/             # Tipos TypeScript
-├── utils/             # Funções utilitárias
-└── styles/            # Estilos globais
+└── utils/             # Funções utilitárias (formatDate, storage)
 ```
+
+Os estilos globais ficam em `src/ui/theme/GlobalStyle.ts`.
 
 ## Convenções do Projeto
 
