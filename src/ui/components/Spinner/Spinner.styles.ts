@@ -36,8 +36,8 @@ export const SpinnerWrapper = styled.div`
 export const StyledSpinner = styled.div<SpinnerStyledProps>`
   width: ${({ $size }) => sizeMap[$size]};
   height: ${({ $size }) => sizeMap[$size]};
-  border: ${({ $size }) => borderWidthMap[$size]} solid ${({ theme }) => theme.colors.border};
-  border-top-color: ${({ theme }) => theme.colors.primary};
+  border: ${({ $size }) => borderWidthMap[$size]} solid ${({ theme }) => theme.colors.border.main};
+  border-top-color: ${({ theme }) => theme.colors.primary.main};
   border-radius: 50%;
   animation: ${spin} 0.8s linear infinite;
 `;
