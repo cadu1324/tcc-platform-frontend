@@ -103,6 +103,10 @@ export const ChatMessages = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.lg};
+
+  @media (max-width: 640px) {
+    padding: ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 export const Bubble = styled.div<{ $fromMe: boolean }>`
@@ -111,6 +115,10 @@ export const Bubble = styled.div<{ $fromMe: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 2px;
+
+  @media (max-width: 640px) {
+    max-width: 85%;
+  }
 `;
 
 export const BubbleText = styled.p<{ $fromMe: boolean }>`
@@ -118,6 +126,7 @@ export const BubbleText = styled.p<{ $fromMe: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  overflow-wrap: anywhere;
   background-color: ${({ theme, $fromMe }) =>
     $fromMe ? theme.colors.primary.main : theme.colors.border.light};
   color: ${({ theme, $fromMe }) =>

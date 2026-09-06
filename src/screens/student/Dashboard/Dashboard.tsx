@@ -1,6 +1,7 @@
 import { useAuth } from '../../../hooks/useAuth';
 import { useStudentDashboard } from '../../../hooks/useStudentDashboard';
 import { Layout } from '../../../components/layout';
+import { CreateProjectDialog } from '../../../components/project';
 import { Card, CardContent, StatCard, Timeline, Avatar, Badge, Spinner } from '../../../ui';
 import { formatDate, daysUntil } from '../../../utils/formatDate';
 import type { Milestone, Feedback } from '../../../types';
@@ -71,6 +72,29 @@ export function Dashboard() {
 
   if (isLoading) {
     return <Layout><DashboardContainer><Spinner size="lg" /></DashboardContainer></Layout>;
+  }
+
+  if (!data?.project) {
+    return (
+      <Layout>
+        <DashboardContainer>
+          <DashboardHeader>
+            <DashboardTitle>Olá, {user?.name}</DashboardTitle>
+            <DashboardSubtitle>Acompanhe o progresso do seu TCC</DashboardSubtitle>
+          </DashboardHeader>
+          <Card>
+            <CardContent>
+              <SectionTitle>Comece seu TCC</SectionTitle>
+              <EmptyText>
+                Você ainda não tem um projeto cadastrado. Crie o seu para acompanhar marcos,
+                entregas e feedbacks.
+              </EmptyText>
+              <CreateProjectDialog />
+            </CardContent>
+          </Card>
+        </DashboardContainer>
+      </Layout>
+    );
   }
 
   const milestonesTotal = (data?.milestones.pending ?? 0) + (data?.milestones.completed ?? 0);

@@ -53,7 +53,8 @@ export const MilestoneList = styled.div`
 export const MilestoneRow = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} 0;
 
   & + & {
@@ -78,6 +79,7 @@ export const MilestoneName = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   color: ${({ theme }) => theme.colors.text.primary};
+  overflow-wrap: anywhere;
 `;
 
 export const MilestoneDate = styled.p`

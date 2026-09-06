@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPut, apiDelete } from './httpClient';
+import { apiGet, apiPost, apiPostForm, apiPut, apiDelete, apiGetBlob } from './httpClient';
 import type { Delivery, CreateDeliveryData, UpdateDeliveryData } from '../types';
 
 export const deliveryService = {
@@ -7,4 +7,10 @@ export const deliveryService = {
   create: (payload: CreateDeliveryData) => apiPost<Delivery>('/deliveries', payload),
   update: (id: number, payload: UpdateDeliveryData) => apiPut<Delivery>(`/deliveries/${id}`, payload),
   remove: (id: number) => apiDelete<void>(`/deliveries/${id}`),
+  submitWithFile: (id: number, file: File) => {
+    const form = new FormData();
+    form.append('file', file);
+    return apiPostForm<Delivery>(`/deliveries/${id}/submission`, form);
+  },
+  downloadFile: (id: number) => apiGetBlob(`/deliveries/${id}/file`),
 };

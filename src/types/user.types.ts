@@ -26,7 +26,19 @@ export interface RegisterData {
   user_type: UserType;
 }
 
+export type CreateUserData = RegisterData;
+
+export interface UpdateUserData {
+  name?: string;
+  email?: string;
+  password?: string;
+  user_type?: UserType;
+  is_active?: boolean;
+}
+
 export interface AuthResponse {
   user: User;
   token: string;
 }
+
+export type AdvisorOption = Pick<User, 'id' | 'name'>;

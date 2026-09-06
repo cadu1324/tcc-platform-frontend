@@ -1,14 +1,21 @@
-import { colors } from './colors';
+import { palettes, colors } from './colors';
 import { spacing, borderRadius } from './spacing';
 import { typography } from './typography';
 
-export const theme = {
-  colors,
-  spacing,
-  borderRadius,
-  typography,
-} as const;
+export type ThemeMode = 'light' | 'dark';
 
-export type Theme = typeof theme;
+export function createTheme(mode: ThemeMode) {
+  return {
+    mode,
+    colors: palettes[mode],
+    spacing,
+    borderRadius,
+    typography,
+  };
+}
 
-export { colors, spacing, borderRadius, typography };
+export const theme = createTheme('light');
+
+export type Theme = ReturnType<typeof createTheme>;
+
+export { colors, palettes, spacing, borderRadius, typography };

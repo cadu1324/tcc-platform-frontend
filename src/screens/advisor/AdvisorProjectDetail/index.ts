@@ -1,0 +1,1 @@
+export { AdvisorProjectDetail } from './AdvisorProjectDetail';

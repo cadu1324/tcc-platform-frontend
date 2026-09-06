@@ -18,13 +18,8 @@ import {
 const registerSchema = z
   .object({
     name: z.string().min(2, 'Nome obrigatório'),
-    registration: z.string().min(1, 'Matrícula obrigatória'),
     email: z.string().email('E-mail inválido'),
-    password: z
-      .string()
-      .min(8, 'Mínimo 8 caracteres')
-      .regex(/[A-Z]/, '1 letra maiúscula obrigatória')
-      .regex(/[0-9]/, '1 número obrigatório'),
+    password: z.string().min(6, 'Mínimo 6 caracteres'),
     confirmPassword: z.string().min(1, 'Confirme a senha'),
     user_type: z.enum([UserType.STUDENT, UserType.ADVISOR], {
       message: 'Selecione o perfil',
@@ -66,20 +61,12 @@ export function RegisterForm() {
 
       {error && <ErrorBanner>{error.message}</ErrorBanner>}
 
-      <FormGrid>
-        <Input
-          label="Nome completo"
-          fullWidth
-          error={errors.name?.message}
-          {...register('name')}
-        />
-        <Input
-          label="Matrícula"
-          fullWidth
-          error={errors.registration?.message}
-          {...register('registration')}
-        />
-      </FormGrid>
+      <Input
+        label="Nome completo"
+        fullWidth
+        error={errors.name?.message}
+        {...register('name')}
+      />
 
       <Input
         label="E-mail institucional"
@@ -115,7 +102,7 @@ export function RegisterForm() {
         {...register('user_type')}
       />
 
-      <InfoBox>Senha: mín. 8 caracteres, 1 maiúscula e 1 número.</InfoBox>
+      <InfoBox>Senha: mín. 6 caracteres.</InfoBox>
 
       <Button type="submit" fullWidth disabled={isPending}>
         {isPending ? 'Criando conta...' : 'Criar conta'}

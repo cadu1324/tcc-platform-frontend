@@ -21,10 +21,17 @@ const UploadIcon = () => (
 );
 
 export interface UploadZoneProps {
+  /**
+   * Native file-picker filter. Leave undefined to let the OS dialog show every
+   * file (some Windows setups grey out everything when this is set) and validate
+   * the chosen file in `onFileSelect` instead.
+   */
   accept?: string;
   maxSizeMB?: number;
   onFileSelect: (file: File) => void;
   label?: string;
+  /** Text shown under the label (e.g. accepted types). Overrides the `accept`-derived hint. */
+  hint?: string;
   className?: string;
 }
 
@@ -33,6 +40,7 @@ export function UploadZone({
   maxSizeMB = 50,
   onFileSelect,
   label = 'Arraste ou clique para selecionar',
+  hint,
   className,
 }: UploadZoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -65,10 +73,12 @@ export function UploadZone({
   }
 
   const types =
+    hint ??
     accept
       ?.split(',')
       .map((t) => t.trim().toUpperCase().replace('.', ''))
-      .join(', ') ?? 'PDF, DOCX, ZIP';
+      .join(', ') ??
+    'PDF, DOCX, ZIP';
 
   return (
     <UploadContainer

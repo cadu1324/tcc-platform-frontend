@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useMyProject } from '../../../hooks/useMyProject';
 import { useProjectMilestones } from '../../../hooks/useProjectMilestones';
 import { Layout } from '../../../components/layout';
+import { CreateProjectDialog } from '../../../components/project';
+import { MilestoneStatusButton } from '../../../components/milestone';
 import { Card, CardContent, Badge, Button, Spinner } from '../../../ui';
 import { formatDate } from '../../../utils/formatDate';
 import type { Milestone } from '../../../types';
@@ -40,7 +42,7 @@ const milestoneColor: Record<string, string> = {
   pending: '#f59e0b',
 };
 
-function MilestoneItem({ milestone }: { milestone: Milestone }) {
+function MilestoneItem({ milestone, projectId }: { milestone: Milestone; projectId: number }) {
   const label = milestone.status === 'completed' ? 'Concluído' : 'Pendente';
   return (
     <MilestoneRow>
@@ -57,6 +59,7 @@ function MilestoneItem({ milestone }: { milestone: Milestone }) {
       <Badge variant={milestone.status === 'completed' ? 'success' : 'warning'} size="sm">
         {label}
       </Badge>
+      <MilestoneStatusButton milestone={milestone} projectId={projectId} />
     </MilestoneRow>
   );
 }
@@ -75,7 +78,16 @@ export function MyProject() {
     return (
       <Layout>
         <MyProjectContainer>
-          <EmptyText>Você ainda não possui um projeto cadastrado.</EmptyText>
+          <Card>
+            <CardContent>
+              <SectionTitle>Comece seu TCC</SectionTitle>
+              <EmptyText>
+                Você ainda não possui um projeto cadastrado. Crie o seu para acompanhar marcos,
+                entregas e feedbacks.
+              </EmptyText>
+              <CreateProjectDialog />
+            </CardContent>
+          </Card>
         </MyProjectContainer>
       </Layout>
     );
@@ -108,7 +120,7 @@ export function MyProject() {
             ) : (
               <MilestoneList>
                 {milestones.map((m) => (
-                  <MilestoneItem key={m.id} milestone={m} />
+                  <MilestoneItem key={m.id} milestone={m} projectId={project.id} />
                 ))}
               </MilestoneList>
             )}

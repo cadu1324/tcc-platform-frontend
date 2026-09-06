@@ -22,22 +22,26 @@ UI Library (ui/) → Components (components/) → Screens (screens/)
 
 ### UI Library (`src/ui/`)
 Componentes base do design system. Genéricos e reutilizáveis em qualquer contexto.
-- Button, Input, Card, Modal, Select, Table, Badge, Spinner
+- Button, Input, Select, Card, Modal, Table, Badge, Spinner, Avatar, Chips, ProgressBar, StatCard, Timeline, UploadZone
 - Theme com cores, espaçamentos e tipografia
 
 ### Components (`src/components/`)
 Componentes compostos que combinam elementos da UI Library.
-- **layout/** - Header, Sidebar, Layout
+- **layout/** - Header (com sino de notificações), Sidebar (com badge de mensagens), Layout
 - **auth/** - LoginForm, RegisterForm
-- **project/** - ProjectCard, ProjectList, ProjectForm
-- **delivery/** - DeliveryCard, DeliveryList
+- **project/** - ProjectCard, ProjectList, ProjectForm, CreateProjectDialog
+- **delivery/** - DeliveryCard, DeliveryList, DeliveryFormDialog, SubmitDeliveryDialog, DownloadFileButton
+- **milestone/** - MilestoneStatusButton, MilestoneFormDialog
+- **user/** - UserFormDialog, ToggleUserActiveButton
+- **notification/** - NotificationBell
+- **messaging/** - Messaging
 
 ### Screens (`src/screens/`)
 Páginas completas que combinam Components.
-- **auth/** - Login, Register
-- **student/** - Dashboard, MyProjects
-- **advisor/** - Dashboard, MyStudents
-- **admin/** - Dashboard, ManageUsers
+- **auth/** - Login, Register, ForgotPassword, ResetPassword
+- **student/** - Dashboard, MyProjects, MyProject, Deliveries, Feedbacks, Messages
+- **advisor/** - Dashboard, MyStudents, AdvisorProjectDetail, AdvisorDeliveries, ReviewDelivery, Messages
+- **admin/** - Dashboard, ManageUsers, UserDetail, Reports
 
 ## Como instalar
 
@@ -63,7 +67,7 @@ cp .env.example .env
 
 | Variável | Descrição | Padrão |
 |----------|-----------|--------|
-| `VITE_API_URL` | URL da API backend | `http://localhost:3333` |
+| `VITE_API_URL` | URL base da API backend (inclui o prefixo `/api`) | `http://localhost:3333/api` |
 
 ## Estrutura de Pastas
 
@@ -75,13 +79,17 @@ src/
 ├── components/        # Componentes compostos
 │   ├── layout/        # Header, Sidebar, Layout
 │   ├── auth/          # LoginForm, RegisterForm
-│   ├── project/       # ProjectCard, ProjectList, ProjectForm
-│   └── delivery/      # DeliveryCard, DeliveryList
+│   ├── project/       # ProjectCard, ProjectList, ProjectForm, CreateProjectDialog
+│   ├── delivery/      # DeliveryCard, DeliveryList, SubmitDeliveryDialog, DownloadFileButton
+│   ├── milestone/     # MilestoneStatusButton, MilestoneFormDialog
+│   ├── user/          # UserFormDialog, ToggleUserActiveButton
+│   ├── notification/  # NotificationBell
+│   └── messaging/     # Messaging
 ├── screens/           # Páginas/telas
-│   ├── auth/          # Login, Register
-│   ├── student/       # Dashboard, MyProjects
-│   ├── advisor/       # Dashboard, MyStudents
-│   └── admin/         # Dashboard, ManageUsers
+│   ├── auth/          # Login, Register, ForgotPassword, ResetPassword
+│   ├── student/       # Dashboard, MyProjects, MyProject, Deliveries, Feedbacks, Messages
+│   ├── advisor/       # Dashboard, MyStudents, AdvisorProjectDetail, AdvisorDeliveries, ReviewDelivery, Messages
+│   └── admin/         # Dashboard, ManageUsers, UserDetail, Reports
 ├── context/           # Context API (AuthContext, ThemeContext)
 ├── services/          # Camada de API: httpClient + um service por recurso
 ├── hooks/             # Custom hooks (useAuth, React Query)

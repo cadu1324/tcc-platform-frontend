@@ -51,8 +51,43 @@ export async function apiPost<T>(url: string, body?: unknown): Promise<T> {
   return data.data;
 }
 
+export async function apiPostForm<T>(url: string, form: FormData): Promise<T> {
+  const { data } = await httpClient.post<ApiEnvelope<T>>(url, form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return data.data;
+}
+
+export interface DownloadedFile {
+  blob: Blob;
+  filename: string;
+}
+
+const FILENAME_FALLBACK = 'arquivo';
+
+function parseFilename(disposition: string | undefined): string {
+  if (!disposition) return FILENAME_FALLBACK;
+  const utf8Match = /filename\*=UTF-8''([^;]+)/i.exec(disposition);
+  if (utf8Match) return decodeURIComponent(utf8Match[1]);
+  const asciiMatch = /filename="?([^";]+)"?/i.exec(disposition);
+  return asciiMatch ? asciiMatch[1] : FILENAME_FALLBACK;
+}
+
+export async function apiGetBlob(url: string): Promise<DownloadedFile> {
+  const response = await httpClient.get<Blob>(url, { responseType: 'blob' });
+  return {
+    blob: response.data,
+    filename: parseFilename(response.headers['content-disposition']),
+  };
+}
+
 export async function apiPut<T>(url: string, body?: unknown): Promise<T> {
   const { data } = await httpClient.put<ApiEnvelope<T>>(url, body);
+  return data.data;
+}
+
+export async function apiPatch<T>(url: string, body?: unknown): Promise<T> {
+  const { data } = await httpClient.patch<ApiEnvelope<T>>(url, body);
   return data.data;
 }
 
