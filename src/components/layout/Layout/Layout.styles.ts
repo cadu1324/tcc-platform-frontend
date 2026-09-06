@@ -3,17 +3,20 @@ import styled from 'styled-components';
 export const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background-color: ${({ theme }) => theme.colors.background.default};
 `;
 
 export const LayoutBody = styled.div`
   display: flex;
   flex: 1;
-  overflow: visible;
+  min-height: 0;
 `;
 
 export const LayoutContent = styled.main`
   flex: 1;
+  min-width: 0;
   padding: ${({ theme }) => theme.spacing.lg};
   background-color: ${({ theme }) => theme.colors.background.default};
   overflow-y: auto;
