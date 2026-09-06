@@ -44,6 +44,8 @@ export const SectionHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
@@ -63,7 +65,8 @@ export const RowList = styled.div`
 export const Row = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} 0;
 
   & + & {
@@ -72,7 +75,7 @@ export const Row = styled.div`
 `;
 
 export const RowInfo = styled.div`
-  flex: 1;
+  flex: 1 1 140px;
   min-width: 0;
 `;
 
@@ -80,6 +83,7 @@ export const RowTitle = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   color: ${({ theme }) => theme.colors.text.primary};
+  overflow-wrap: anywhere;
 `;
 
 export const RowMeta = styled.p`

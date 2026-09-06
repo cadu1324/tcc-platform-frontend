@@ -12,6 +12,10 @@ export const SidebarContainer = styled.aside`
   flex-shrink: 0;
   overflow: visible;
   z-index: 10;
+
+  @media (max-width: 640px) {
+    width: 44px;
+  }
 `;
 
 export const SidebarNav = styled.nav`

@@ -25,11 +25,15 @@ export const DashboardSubtitle = styled.p`
 
 export const StatsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: ${({ theme }) => theme.spacing.md};
 
   @media (max-width: 900px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -55,7 +59,8 @@ export const SectionTitle = styled.h2`
 export const DeliveryRow = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} 0;
   cursor: pointer;
 
@@ -90,7 +95,8 @@ export const DeliveryMeta = styled.p`
 export const MilestoneRow = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} 0;
   cursor: pointer;
 

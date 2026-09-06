@@ -10,6 +10,8 @@ export const ManageUsersHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
 `;
 
 export const ManageUsersTitle = styled.h1`

@@ -10,7 +10,8 @@ export const DeliveriesHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: ${({ theme }) => theme.spacing.md};
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
 `;
 
 export const DeliveriesTitle = styled.h1`

@@ -20,4 +20,9 @@ export const LayoutContent = styled.main`
   padding: ${({ theme }) => theme.spacing.lg};
   background-color: ${({ theme }) => theme.colors.background.default};
   overflow-y: auto;
+  overflow-x: hidden;
+
+  @media (max-width: 640px) {
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
+  }
 `;
