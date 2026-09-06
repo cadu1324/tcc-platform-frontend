@@ -92,9 +92,14 @@ export const MilestoneRow = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} 0;
+  cursor: pointer;
 
   & + & {
     border-top: 1px solid ${({ theme }) => theme.colors.border.light};
+  }
+
+  &:hover {
+    opacity: 0.8;
   }
 `;
 

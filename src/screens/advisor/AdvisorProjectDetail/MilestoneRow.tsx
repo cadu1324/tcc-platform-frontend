@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Badge, Button, Modal } from '../../../ui';
 import { MilestoneStatusButton, MilestoneFormDialog } from '../../../components/milestone';
 import { useDeleteMilestone } from '../../../hooks/useDeleteMilestone';
-import { formatDate } from '../../../utils/formatDate';
+import { formatDate, daysUntil } from '../../../utils/formatDate';
 import { MilestoneStatus } from '../../../types';
 import type { Milestone } from '../../../types';
 import { Row, RowInfo, RowTitle, RowMeta, RowActions, ConfirmText } from './AdvisorProjectDetail.styles';
@@ -18,6 +18,8 @@ export function MilestoneRow({ milestone, projectId }: MilestoneRowProps) {
   const { mutate: deleteMilestone, isPending: isDeleting } = useDeleteMilestone();
 
   const isDone = milestone.status === MilestoneStatus.COMPLETED;
+  const remainingDays = daysUntil(milestone.due_date);
+  const isOverdue = !isDone && remainingDays !== null && remainingDays < 0;
 
   function confirmDelete() {
     deleteMilestone(
@@ -32,13 +34,14 @@ export function MilestoneRow({ milestone, projectId }: MilestoneRowProps) {
         <RowTitle>{milestone.title}</RowTitle>
         {milestone.due_date && (
           <RowMeta>
-            {isDone ? 'Concluído' : 'Prazo'}: {formatDate(milestone.due_date)}
+            {isDone ? 'Concluído' : isOverdue ? 'Prazo expirou' : 'Prazo'}:{' '}
+            {formatDate(milestone.due_date)}
           </RowMeta>
         )}
       </RowInfo>
 
-      <Badge variant={isDone ? 'success' : 'warning'} size="sm">
-        {isDone ? 'Concluído' : 'Pendente'}
+      <Badge variant={isDone ? 'success' : isOverdue ? 'error' : 'warning'} size="sm">
+        {isDone ? 'Concluído' : isOverdue ? 'Atrasado' : 'Pendente'}
       </Badge>
 
       <RowActions>

@@ -39,9 +39,15 @@ function AwaitingDeliveryItem({ delivery, onReview }: { delivery: Delivery; onRe
   );
 }
 
-function OverdueMilestoneItem({ milestone }: { milestone: Milestone }) {
+function OverdueMilestoneItem({
+  milestone,
+  onOpen,
+}: {
+  milestone: Milestone;
+  onOpen: (projectId: number) => void;
+}) {
   return (
-    <MilestoneRow>
+    <MilestoneRow onClick={() => onOpen(milestone.project_id)}>
       <MilestoneDot />
       <MilestoneInfo>
         <MilestoneTitle>{milestone.title}</MilestoneTitle>
@@ -123,7 +129,11 @@ export function Dashboard() {
                 <EmptyText>Nenhum marco atrasado</EmptyText>
               ) : (
                 overdueMilestones.slice(0, 5).map((m) => (
-                  <OverdueMilestoneItem key={m.id} milestone={m} />
+                  <OverdueMilestoneItem
+                    key={m.id}
+                    milestone={m}
+                    onOpen={(projectId) => navigate(`/advisor/students/${projectId}`)}
+                  />
                 ))
               )}
             </CardContent>
