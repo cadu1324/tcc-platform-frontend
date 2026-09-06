@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAllUsers } from '../../../hooks/useAllUsers';
 import { Layout } from '../../../components/layout';
+import { UserFormDialog, ToggleUserActiveButton } from '../../../components/user';
 import { Table, Badge, Spinner } from '../../../ui';
 import type { TableColumn } from '../../../ui';
 import type { User } from '../../../types';
@@ -10,6 +12,7 @@ import {
   ManageUsersHeader,
   ManageUsersTitle,
   ActiveBadge,
+  RowActions,
 } from './ManageUsers.styles';
 
 const roleLabels: Record<string, string> = {
@@ -24,7 +27,7 @@ const roleVariants: Record<string, 'info' | 'warning' | 'error'> = {
   admin: 'error',
 };
 
-const columns: TableColumn<User>[] = [
+const baseColumns: TableColumn<User>[] = [
   { key: 'name', header: 'Nome' },
   { key: 'email', header: 'E-mail' },
   {
@@ -40,9 +43,7 @@ const columns: TableColumn<User>[] = [
     key: 'is_active',
     header: 'Status',
     render: (user) => (
-      <ActiveBadge $active={user.is_active}>
-        {user.is_active ? 'Ativo' : 'Inativo'}
-      </ActiveBadge>
+      <ActiveBadge $active={user.is_active}>{user.is_active ? 'Ativo' : 'Inativo'}</ActiveBadge>
     ),
   },
   {
@@ -55,12 +56,44 @@ const columns: TableColumn<User>[] = [
 export function ManageUsers() {
   const { data: users, isLoading } = useAllUsers();
   const navigate = useNavigate();
+  const [isCreating, setIsCreating] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+
+  const columns: TableColumn<User>[] = [
+    ...baseColumns,
+    {
+      key: 'actions',
+      header: 'Ações',
+      render: (user) => (
+        <RowActions onClick={(event) => event.stopPropagation()}>
+          <UserFormDialog
+            key={`edit-${user.id}-${editingId === user.id}`}
+            mode="edit"
+            user={user}
+            isOpen={editingId === user.id}
+            onOpenChange={(open) => setEditingId(open ? user.id : null)}
+            triggerLabel="Editar"
+            triggerVariant="ghost"
+            triggerSize="sm"
+          />
+          <ToggleUserActiveButton user={user} />
+        </RowActions>
+      ),
+    },
+  ];
 
   return (
     <Layout>
       <ManageUsersContainer>
         <ManageUsersHeader>
           <ManageUsersTitle>Gerenciar Usuários</ManageUsersTitle>
+          <UserFormDialog
+            key={`create-${isCreating}`}
+            mode="create"
+            isOpen={isCreating}
+            onOpenChange={setIsCreating}
+            triggerLabel="Novo usuário"
+          />
         </ManageUsersHeader>
 
         {isLoading ? (

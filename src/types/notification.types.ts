@@ -3,6 +3,7 @@ export const NotificationType = {
   FEEDBACK_REGISTERED: 'feedback_registered',
   MILESTONE_CREATED: 'milestone_created',
   MILESTONE_UPDATED: 'milestone_updated',
+  MESSAGE_RECEIVED: 'message_received',
 } as const;
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType];
 

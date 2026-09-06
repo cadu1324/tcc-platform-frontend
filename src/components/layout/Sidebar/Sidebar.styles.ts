@@ -23,6 +23,25 @@ export const SidebarNav = styled.nav`
   margin-top: ${({ theme }) => theme.spacing.sm};
 `;
 
+export const NavBadge = styled.span`
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  background-color: ${({ theme }) => theme.colors.error.main};
+  color: #fff;
+  font-size: 9px;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+`;
+
 export const SidebarLabel = styled.span`
   position: absolute;
   left: calc(100% + 12px);

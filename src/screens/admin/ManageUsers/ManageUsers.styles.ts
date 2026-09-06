@@ -18,6 +18,12 @@ export const ManageUsersTitle = styled.h1`
   color: ${({ theme }) => theme.colors.text.primary};
 `;
 
+export const RowActions = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.xs};
+  justify-content: flex-end;
+`;
+
 export const ActiveBadge = styled.span<{ $active: boolean }>`
   display: inline-block;
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};

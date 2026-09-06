@@ -74,20 +74,6 @@ export const MetaItem = styled.span`
   color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
-export const FileLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.primary.main};
-  text-decoration: none;
-  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 export const FormFields = styled.div`
   display: flex;
   flex-direction: column;

@@ -33,6 +33,9 @@ export const DeliveryCardFooter = styled.div`
 
 export const DeliveryCardActions = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
+  gap: ${({ theme }) => theme.spacing.sm};
   padding-top: ${({ theme }) => theme.spacing.sm};
 `;

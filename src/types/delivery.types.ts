@@ -14,6 +14,7 @@ export interface Delivery {
   deadline: string | null;
   status: DeliveryStatus;
   file_url: string | null;
+  file_name: string | null;
   submitted_at: string | null;
   created_at: string;
   updated_at: string;
@@ -33,12 +34,4 @@ export interface UpdateDeliveryData {
   status?: DeliveryStatus;
   file_url?: string;
   submitted_at?: string;
-}
-
-export interface SubmitDeliveryData {
-  file_url: string;
-}
-
-export interface ReviewDeliveryData {
-  status: typeof DeliveryStatus.APPROVED | typeof DeliveryStatus.REJECTED;
 }

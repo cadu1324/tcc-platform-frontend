@@ -16,6 +16,10 @@ export interface Project {
   advisor_id: number | null;
   created_at: string;
   updated_at: string;
+  /** Optional enrichments the backend may include on list responses. */
+  student_name?: string;
+  milestones_total?: number;
+  milestones_completed?: number;
 }
 
 export interface CreateProjectData {
@@ -23,6 +27,7 @@ export interface CreateProjectData {
   description: string;
   student_id: number;
   advisor_id: number;
+  start_date?: string;
   expected_delivery_date?: string;
 }
 

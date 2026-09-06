@@ -29,15 +29,21 @@ const statusVariants: Record<string, 'info' | 'success' | 'error'> = {
   cancelled: 'error',
 };
 
+function milestoneProgress(project: Project): number {
+  const total = project.milestones_total ?? 0;
+  if (total > 0) return Math.round(((project.milestones_completed ?? 0) / total) * 100);
+  return project.status === 'completed' ? 100 : 0;
+}
+
 function StudentCard({ project, onReview }: { project: Project; onReview: () => void }) {
-  const initials = `Aluno #${project.student_id}`;
+  const studentName = project.student_name ?? `Aluno #${project.student_id}`;
   return (
     <Card clickable onClick={onReview}>
       <CardContent>
         <StudentCardHeader>
-          <Avatar name={initials} size="md" scheme="amber" />
+          <Avatar name={studentName} size="md" scheme="amber" />
           <StudentInfo>
-            <StudentName>Aluno #{project.student_id}</StudentName>
+            <StudentName>{studentName}</StudentName>
             <ProjectTitle>{project.title}</ProjectTitle>
           </StudentInfo>
           <Badge variant={statusVariants[project.status] ?? 'info'} size="sm">
@@ -45,7 +51,7 @@ function StudentCard({ project, onReview }: { project: Project; onReview: () => 
           </Badge>
         </StudentCardHeader>
 
-        <ProgressBar value={project.status === 'completed' ? 100 : 50} variant="thin" color="primary" />
+        <ProgressBar value={milestoneProgress(project)} variant="thin" color="primary" />
 
         <ProjectMeta>
           <span>Início: {formatDate(project.start_date)}</span>
@@ -77,7 +83,7 @@ export function MyStudents() {
               <StudentCard
                 key={project.id}
                 project={project}
-                onReview={() => navigate('/advisor/deliveries')}
+                onReview={() => navigate(`/advisor/students/${project.id}`)}
               />
             ))}
           </StudentsGrid>

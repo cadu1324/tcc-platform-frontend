@@ -1,6 +1,13 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
-import { SidebarContainer, SidebarNav, SidebarItem, SidebarLabel } from './Sidebar.styles';
+import { useMessageContacts } from '../../../hooks/useMessageContacts';
+import {
+  SidebarContainer,
+  SidebarNav,
+  SidebarItem,
+  SidebarLabel,
+  NavBadge,
+} from './Sidebar.styles';
 
 const DashboardIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -14,6 +21,14 @@ const DashboardIcon = () => (
 const FolderIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+const LayersIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+    <polyline points="2 17 12 22 22 17" />
+    <polyline points="2 12 12 17 22 12" />
   </svg>
 );
 
@@ -83,6 +98,7 @@ const navItemsByRole: Record<string, NavItem[]> = {
   student: [
     { label: 'Dashboard', path: '/student/dashboard', icon: <DashboardIcon /> },
     { label: 'Meu Projeto', path: '/student/project', icon: <FolderIcon /> },
+    { label: 'Meus Projetos', path: '/student/projects', icon: <LayersIcon /> },
     { label: 'Entregas', path: '/student/deliveries', icon: <PackageIcon /> },
     { label: 'Feedbacks', path: '/student/feedbacks', icon: <StarIcon /> },
     { label: 'Mensagens', path: '/student/messages', icon: <MessageIcon /> },
@@ -100,10 +116,19 @@ const navItemsByRole: Record<string, NavItem[]> = {
   ],
 };
 
+function formatBadge(count: number): string {
+  return count > 9 ? '9+' : String(count);
+}
+
 export function Sidebar() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { data: contacts = [] } = useMessageContacts({
+    enabled: !!user && user.user_type !== 'admin',
+  });
+  const unreadMessages = contacts.reduce((sum, contact) => sum + contact.unread_count, 0);
 
   if (!user) return null;
 
@@ -112,17 +137,21 @@ export function Sidebar() {
   return (
     <SidebarContainer>
       <SidebarNav>
-        {navItems.map((item) => (
-          <SidebarItem
-            key={item.path}
-            $active={location.pathname === item.path}
-            onClick={() => navigate(item.path)}
-            title={item.label}
-          >
-            {item.icon}
-            <SidebarLabel>{item.label}</SidebarLabel>
-          </SidebarItem>
-        ))}
+        {navItems.map((item) => {
+          const showMessagesBadge = item.path.endsWith('/messages') && unreadMessages > 0;
+          return (
+            <SidebarItem
+              key={item.path}
+              $active={location.pathname === item.path}
+              onClick={() => navigate(item.path)}
+              title={item.label}
+            >
+              {item.icon}
+              {showMessagesBadge && <NavBadge>{formatBadge(unreadMessages)}</NavBadge>}
+              <SidebarLabel>{item.label}</SidebarLabel>
+            </SidebarItem>
+          );
+        })}
       </SidebarNav>
     </SidebarContainer>
   );

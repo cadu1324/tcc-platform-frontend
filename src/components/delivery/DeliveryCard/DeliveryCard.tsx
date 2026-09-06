@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { Delivery } from '../../../types';
 import { Card, CardContent, Badge } from '../../../ui';
 import { formatDate } from '../../../utils/formatDate';
+import { DownloadFileButton } from '../DownloadFileButton';
 import {
   DeliveryCardContainer,
   DeliveryCardHeader,
@@ -54,7 +55,14 @@ export function DeliveryCard({ delivery, onClick, action }: DeliveryCardProps) {
             )}
           </DeliveryCardFooter>
 
-          {action && <DeliveryCardActions>{action}</DeliveryCardActions>}
+          {(delivery.file_url || action) && (
+            <DeliveryCardActions>
+              {delivery.file_url && (
+                <DownloadFileButton deliveryId={delivery.id} fileName={delivery.file_name} />
+              )}
+              {action}
+            </DeliveryCardActions>
+          )}
         </DeliveryCardContainer>
       </CardContent>
     </Card>

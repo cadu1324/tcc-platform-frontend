@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useDeliveryById } from '../../../hooks/useDeliveryById';
 import { useSubmitReview } from '../../../hooks/useSubmitReview';
 import { Layout } from '../../../components/layout';
+import { DownloadFileButton } from '../../../components/delivery';
 import { Card, CardContent, Badge, Button, Input, Spinner } from '../../../ui';
 import { formatDate, formatDateTime } from '../../../utils/formatDate';
 import { DeliveryStatus } from '../../../types';
@@ -18,7 +19,6 @@ import {
   DeliveryDescription,
   MetaRow,
   MetaItem,
-  FileLink,
   FormFields,
   FormActions,
   SuccessBanner,
@@ -104,9 +104,12 @@ export function ReviewDelivery() {
               </MetaRow>
 
               {delivery.file_url ? (
-                <FileLink href={delivery.file_url} target="_blank" rel="noopener noreferrer">
-                  Abrir arquivo →
-                </FileLink>
+                <DownloadFileButton
+                  deliveryId={delivery.id}
+                  fileName={delivery.file_name}
+                  variant="outline"
+                  size="sm"
+                />
               ) : (
                 <MetaItem>Nenhum arquivo anexado</MetaItem>
               )}
