@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import { useMyProject } from '../../../hooks/useMyProject';
 import { useProjectDeliveries } from '../../../hooks/useProjectDeliveries';
+import { useProjectMilestones } from '../../../hooks/useProjectMilestones';
 import { Layout } from '../../../components/layout';
 import { Chips, Spinner } from '../../../ui';
-import { DeliveryCard, DeliveryFormDialog, SubmitDeliveryDialog } from '../../../components/delivery';
+import {
+  DeliveryCard,
+  DeliveryFormDialog,
+  SubmitDeliveryDialog,
+  ViewVersionHistoryButton,
+} from '../../../components/delivery';
 import type { ChipOption } from '../../../ui';
 import { DeliveryStatus } from '../../../types';
 import type { Delivery } from '../../../types';
@@ -27,6 +33,7 @@ export function Deliveries() {
   const [filter, setFilter] = useState('all');
   const { data: project } = useMyProject();
   const { data: deliveries, isLoading } = useProjectDeliveries(project?.id);
+  const { data: milestones = [] } = useProjectMilestones(project?.id);
 
   const all: Delivery[] = deliveries ?? [];
   const filtered = filter === 'all' ? all : all.filter((d) => d.status === filter);
@@ -44,7 +51,7 @@ export function Deliveries() {
       <DeliveriesContainer>
         <DeliveriesHeader>
           <DeliveriesTitle>Entregas</DeliveriesTitle>
-          {project && <DeliveryFormDialog projectId={project.id} />}
+          {project && <DeliveryFormDialog projectId={project.id} milestones={milestones} />}
         </DeliveriesHeader>
 
         <Chips options={optionsWithCount} value={filter} onChange={setFilter} />
@@ -60,11 +67,16 @@ export function Deliveries() {
                 key={delivery.id}
                 delivery={delivery}
                 action={
-                  project &&
-                  (delivery.status === DeliveryStatus.PENDING ||
-                    delivery.status === DeliveryStatus.REJECTED) ? (
-                    <SubmitDeliveryDialog delivery={delivery} projectId={project.id} />
-                  ) : undefined
+                  <>
+                    {project &&
+                      (delivery.status === DeliveryStatus.PENDING ||
+                        delivery.status === DeliveryStatus.REJECTED) && (
+                        <SubmitDeliveryDialog delivery={delivery} projectId={project.id} />
+                      )}
+                    {delivery.file_url && (
+                      <ViewVersionHistoryButton to={`/student/deliveries/${delivery.id}/versions`} />
+                    )}
+                  </>
                 }
               />
             ))}

@@ -7,4 +7,5 @@ export { milestoneService } from './milestoneService';
 export { feedbackService } from './feedbackService';
 export { messageService } from './messageService';
 export { notificationService } from './notificationService';
+export { notificationSettingsService } from './notificationSettingsService';
 export { dashboardService } from './dashboardService';

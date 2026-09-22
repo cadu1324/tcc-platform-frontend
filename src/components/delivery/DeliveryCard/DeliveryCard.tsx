@@ -49,6 +49,7 @@ export function DeliveryCard({ delivery, onClick, action }: DeliveryCardProps) {
           </DeliveryCardDescription>
 
           <DeliveryCardFooter>
+            {delivery.milestone_title && <span>Marco: {delivery.milestone_title}</span>}
             <span>Prazo: {formatDate(delivery.deadline)}</span>
             {delivery.submitted_at && (
               <span>Enviada em: {formatDate(delivery.submitted_at)}</span>

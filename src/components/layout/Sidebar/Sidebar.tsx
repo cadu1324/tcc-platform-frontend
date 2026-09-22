@@ -88,6 +88,21 @@ const ChartIcon = () => (
   </svg>
 );
 
+const GlobeIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15.3 15.3 0 0 1 0 20a15.3 15.3 0 0 1 0-20z" />
+  </svg>
+);
+
+const BellIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+  </svg>
+);
+
 interface NavItem {
   label: string;
   path: string;
@@ -112,7 +127,9 @@ const navItemsByRole: Record<string, NavItem[]> = {
   admin: [
     { label: 'Dashboard', path: '/admin/dashboard', icon: <DashboardIcon /> },
     { label: 'Gerenciar Usuários', path: '/admin/users', icon: <ManageUsersIcon /> },
+    { label: 'Monitoramento', path: '/admin/projects', icon: <GlobeIcon /> },
     { label: 'Relatórios', path: '/admin/reports', icon: <ChartIcon /> },
+    { label: 'Notificações', path: '/admin/notifications', icon: <BellIcon /> },
   ],
 };
 

@@ -18,6 +18,7 @@ export {
   Timeline,
   Chips,
   UploadZone,
+  Switch,
 } from './components';
 
 export type {
@@ -49,6 +50,7 @@ export type {
   ChipsProps,
   ChipOption,
   UploadZoneProps,
+  SwitchProps,
 } from './components';
 
 // Theme

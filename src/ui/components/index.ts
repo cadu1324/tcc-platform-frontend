@@ -39,3 +39,6 @@ export type { ChipsProps, ChipOption } from './Chips';
 
 export { UploadZone } from './UploadZone';
 export type { UploadZoneProps } from './UploadZone';
+
+export { Switch } from './Switch';
+export type { SwitchProps } from './Switch';

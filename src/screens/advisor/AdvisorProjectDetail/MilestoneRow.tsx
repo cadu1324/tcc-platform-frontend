@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { Badge, Button, Modal } from '../../../ui';
 import { MilestoneStatusButton, MilestoneFormDialog } from '../../../components/milestone';
 import { useDeleteMilestone } from '../../../hooks/useDeleteMilestone';
-import { formatDate, daysUntil } from '../../../utils/formatDate';
+import { formatDate } from '../../../utils/formatDate';
+import {
+  getMilestoneUrgency,
+  milestoneUrgencyBadgeVariant,
+  milestoneUrgencyLabel,
+} from '../../../utils/milestoneUrgency';
 import { MilestoneStatus } from '../../../types';
 import type { Milestone } from '../../../types';
 import { Row, RowInfo, RowTitle, RowMeta, RowActions, ConfirmText } from './AdvisorProjectDetail.styles';
@@ -18,8 +23,8 @@ export function MilestoneRow({ milestone, projectId }: MilestoneRowProps) {
   const { mutate: deleteMilestone, isPending: isDeleting } = useDeleteMilestone();
 
   const isDone = milestone.status === MilestoneStatus.COMPLETED;
-  const remainingDays = daysUntil(milestone.due_date);
-  const isOverdue = !isDone && remainingDays !== null && remainingDays < 0;
+  const urgency = getMilestoneUrgency(milestone);
+  const isOverdue = urgency === 'overdue';
 
   function confirmDelete() {
     deleteMilestone(
@@ -40,8 +45,8 @@ export function MilestoneRow({ milestone, projectId }: MilestoneRowProps) {
         )}
       </RowInfo>
 
-      <Badge variant={isDone ? 'success' : isOverdue ? 'error' : 'warning'} size="sm">
-        {isDone ? 'Concluído' : isOverdue ? 'Atrasado' : 'Pendente'}
+      <Badge variant={milestoneUrgencyBadgeVariant[urgency]} size="sm">
+        {milestoneUrgencyLabel[urgency]}
       </Badge>
 
       <RowActions>

@@ -97,6 +97,7 @@ export function AdvisorProjectDetail() {
         </PageHeader>
         <StudentLine>
           Orientando: {student ? student.name : `#${project.student_id}`}
+          {project.knowledge_area && ` · Área: ${project.knowledge_area}`}
           {project.expected_delivery_date && ` · Entrega prevista: ${formatDate(project.expected_delivery_date)}`}
         </StudentLine>
 
@@ -145,7 +146,10 @@ export function AdvisorProjectDetail() {
                   <Row key={delivery.id}>
                     <RowInfo>
                       <RowTitle>{delivery.title}</RowTitle>
-                      <RowMeta>Prazo: {formatDate(delivery.deadline)}</RowMeta>
+                      <RowMeta>
+                        {delivery.milestone_title && `Marco: ${delivery.milestone_title} · `}
+                        Prazo: {formatDate(delivery.deadline)}
+                      </RowMeta>
                     </RowInfo>
                     <Badge variant={deliveryStatusVariant[delivery.status]} size="sm">
                       {deliveryStatusLabel[delivery.status]}
