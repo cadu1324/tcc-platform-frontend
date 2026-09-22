@@ -1,6 +1,7 @@
 import type { User } from '../types';
 
 const TOKEN_KEY = 'tcc:token';
+const REFRESH_TOKEN_KEY = 'tcc:refreshToken';
 const USER_KEY = 'tcc:user';
 
 export function getToken(): string | null {
@@ -9,6 +10,14 @@ export function getToken(): string | null {
 
 export function setToken(token: string): void {
   localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function getRefreshToken(): string | null {
+  return localStorage.getItem(REFRESH_TOKEN_KEY);
+}
+
+export function setRefreshToken(token: string): void {
+  localStorage.setItem(REFRESH_TOKEN_KEY, token);
 }
 
 export function getStoredUser(): User | null {
@@ -29,5 +38,6 @@ export function setStoredUser(user: User): void {
 
 export function clearSession(): void {
   localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
 }

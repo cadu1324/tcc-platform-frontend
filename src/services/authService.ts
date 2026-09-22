@@ -1,5 +1,5 @@
 import { apiPost } from './httpClient';
-import type { AuthResponse, LoginCredentials, RegisterData } from '../types';
+import type { AuthResponse, LoginCredentials, RefreshTokenResponse, RegisterData } from '../types';
 
 interface MessageResponse {
   message: string;
@@ -12,4 +12,8 @@ export const authService = {
     apiPost<MessageResponse>('/auth/forgot-password', { email }),
   resetPassword: (payload: { token: string; password: string }) =>
     apiPost<MessageResponse>('/auth/reset-password', payload),
+  refresh: (refreshToken: string) =>
+    apiPost<RefreshTokenResponse>('/auth/refresh', { refresh_token: refreshToken }),
+  logout: (refreshToken: string) =>
+    apiPost<MessageResponse>('/auth/logout', { refresh_token: refreshToken }),
 };

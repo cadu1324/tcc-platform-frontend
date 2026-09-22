@@ -5,8 +5,8 @@ export interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  setSession: (user: User, token: string) => void;
-  logout: () => void;
+  setSession: (user: User, accessToken: string, refreshToken: string) => void;
+  logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);

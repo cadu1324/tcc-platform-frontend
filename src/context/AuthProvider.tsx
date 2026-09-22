@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from '../types';
-import { setToken, getToken, getStoredUser, setStoredUser, clearSession } from '../utils/storage';
+import {
+  setToken,
+  getToken,
+  setRefreshToken,
+  getRefreshToken,
+  getStoredUser,
+  setStoredUser,
+  clearSession,
+} from '../utils/storage';
+import { authService } from '../services/authService';
 import { AuthContext } from './authContext';
 
 function loadInitialUser(): User | null {
@@ -13,15 +22,24 @@ function loadInitialUser(): User | null {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(loadInitialUser);
 
-  function setSession(newUser: User, token: string): void {
-    setToken(token);
+  function setSession(newUser: User, accessToken: string, refreshToken: string): void {
+    setToken(accessToken);
+    setRefreshToken(refreshToken);
     setStoredUser(newUser);
     setUser(newUser);
   }
 
-  function logout(): void {
+  async function logout(): Promise<void> {
+    const refreshToken = getRefreshToken();
     clearSession();
     setUser(null);
+    if (refreshToken) {
+      try {
+        await authService.logout(refreshToken);
+      } catch {
+        // Best-effort: the local session is already cleared either way.
+      }
+    }
   }
 
   return (

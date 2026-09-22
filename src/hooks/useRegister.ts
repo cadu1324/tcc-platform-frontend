@@ -9,7 +9,7 @@ export function useRegister() {
   return useMutation({
     mutationFn: (data: RegisterData) => authService.register(data),
     onSuccess: (data) => {
-      setSession(data.user, data.token);
+      setSession(data.user, data.access_token, data.refresh_token);
     },
   });
 }

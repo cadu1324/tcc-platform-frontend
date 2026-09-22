@@ -1,6 +1,6 @@
 import axios from 'axios';
-import type { AxiosError } from 'axios';
-import { getToken, clearSession } from '../utils/storage';
+import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { getToken, getRefreshToken, setToken, setRefreshToken, clearSession } from '../utils/storage';
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3333/api';
 
@@ -13,6 +13,17 @@ interface ApiErrorBody {
   success: false;
   error: string;
 }
+
+interface RefreshTokenBody {
+  access_token: string;
+  refresh_token: string;
+}
+
+interface RetryableConfig extends InternalAxiosRequestConfig {
+  _retried?: boolean;
+}
+
+const AUTH_ENDPOINTS = ['/auth/login', '/auth/register', '/auth/refresh', '/auth/logout'];
 
 export const httpClient = axios.create({
   baseURL: API_URL,
@@ -27,15 +38,56 @@ httpClient.interceptors.request.use((config) => {
   return config;
 });
 
+function redirectToLogin(): void {
+  clearSession();
+  if (window.location.pathname !== '/login') {
+    window.location.href = '/login';
+  }
+}
+
+let refreshPromise: Promise<string> | null = null;
+
+async function refreshAccessToken(): Promise<string> {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) {
+    throw new Error('No refresh token available');
+  }
+
+  const response = await axios.post<ApiEnvelope<RefreshTokenBody>>(
+    `${API_URL}/auth/refresh`,
+    { refresh_token: refreshToken },
+  );
+  const { access_token, refresh_token } = response.data.data;
+  setToken(access_token);
+  setRefreshToken(refresh_token);
+  return access_token;
+}
+
 httpClient.interceptors.response.use(
   (response) => response,
-  (error: AxiosError<ApiErrorBody>) => {
-    if (error.response?.status === 401) {
-      clearSession();
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+  async (error: AxiosError<ApiErrorBody>) => {
+    const config = error.config as RetryableConfig | undefined;
+    const isAuthEndpoint = AUTH_ENDPOINTS.some((path) => config?.url?.includes(path));
+
+    if (error.response?.status === 401 && config && !config._retried && !isAuthEndpoint) {
+      config._retried = true;
+      try {
+        refreshPromise ??= refreshAccessToken().finally(() => {
+          refreshPromise = null;
+        });
+        const newAccessToken = await refreshPromise;
+        config.headers.Authorization = `Bearer ${newAccessToken}`;
+        return httpClient(config);
+      } catch {
+        redirectToLogin();
+        return Promise.reject(new Error('Sessão expirada. Faça login novamente.'));
       }
     }
+
+    if (error.response?.status === 401) {
+      redirectToLogin();
+    }
+
     const message = error.response?.data?.error ?? 'Erro inesperado. Tente novamente.';
     return Promise.reject(new Error(message));
   },
