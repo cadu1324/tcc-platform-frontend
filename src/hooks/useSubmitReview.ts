@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deliveryService } from '../services/deliveryService';
 import { feedbackService } from '../services/feedbackService';
 import type { DeliveryStatus } from '../types';
 
@@ -13,10 +12,8 @@ interface ReviewPayload {
 export function useSubmitReview() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ deliveryId, status, comment, grade }: ReviewPayload) => {
-      await feedbackService.create({ delivery_id: deliveryId, comment, grade });
-      await deliveryService.update(deliveryId, { status });
-    },
+    mutationFn: ({ deliveryId, status, comment, grade }: ReviewPayload) =>
+      feedbackService.create({ delivery_id: deliveryId, comment, grade, status }),
     onSuccess: (_data, variables) => {
       void queryClient.invalidateQueries({ queryKey: ['delivery', variables.deliveryId.toString()] });
       void queryClient.invalidateQueries({ queryKey: ['advisor-dashboard'] });
