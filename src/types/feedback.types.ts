@@ -1,3 +1,5 @@
+import type { DeliveryStatus } from './delivery.types';
+
 export interface Feedback {
   id: number;
   delivery_id: number;
@@ -11,6 +13,7 @@ export interface CreateFeedbackData {
   delivery_id: number;
   comment: string;
   grade: number;
+  status: typeof DeliveryStatus.APPROVED | typeof DeliveryStatus.REJECTED;
 }
 
 export interface FeedbackWithRelations extends Feedback {

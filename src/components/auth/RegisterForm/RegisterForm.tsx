@@ -2,9 +2,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
-import { Button, Input, Select } from '../../../ui';
+import { Button, Input } from '../../../ui';
 import { useRegister } from '../../../hooks/useRegister';
-import { UserType } from '../../../types';
 import {
   FormContainer,
   FormLogo,
@@ -21,9 +20,6 @@ const registerSchema = z
     email: z.string().email('E-mail inválido'),
     password: z.string().min(6, 'Mínimo 6 caracteres'),
     confirmPassword: z.string().min(1, 'Confirme a senha'),
-    user_type: z.enum([UserType.STUDENT, UserType.ADVISOR], {
-      message: 'Selecione o perfil',
-    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'As senhas não coincidem',
@@ -31,11 +27,6 @@ const registerSchema = z
   });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
-
-const userTypeOptions = [
-  { value: UserType.STUDENT, label: 'Aluno' },
-  { value: UserType.ADVISOR, label: 'Orientador' },
-];
 
 export function RegisterForm() {
   const { mutate, isPending, error } = useRegister();
@@ -50,14 +41,13 @@ export function RegisterForm() {
       name: data.name,
       email: data.email,
       password: data.password,
-      user_type: data.user_type,
     });
   }
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <FormLogo>TCC Platform</FormLogo>
-      <FormSubtitle>Criar conta</FormSubtitle>
+      <FormSubtitle>Criar conta de aluno</FormSubtitle>
 
       {error && <ErrorBanner>{error.message}</ErrorBanner>}
 
@@ -93,16 +83,9 @@ export function RegisterForm() {
         />
       </FormGrid>
 
-      <Select
-        label="Perfil"
-        options={userTypeOptions}
-        placeholder="Selecione o perfil"
-        fullWidth
-        error={errors.user_type?.message}
-        {...register('user_type')}
-      />
-
-      <InfoBox>Senha: mín. 6 caracteres.</InfoBox>
+      <InfoBox>
+        Senha: mín. 6 caracteres. Contas de orientador ou administrador são criadas por um administrador.
+      </InfoBox>
 
       <Button type="submit" fullWidth disabled={isPending}>
         {isPending ? 'Criando conta...' : 'Criar conta'}

@@ -23,10 +23,14 @@ export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  user_type: UserType;
 }
 
-export type CreateUserData = RegisterData;
+export interface CreateUserData {
+  name: string;
+  email: string;
+  password: string;
+  user_type: UserType;
+}
 
 export interface UpdateUserData {
   name?: string;
