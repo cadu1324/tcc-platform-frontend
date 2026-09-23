@@ -1,0 +1,1 @@
+export { ViewVersionHistoryButton } from './ViewVersionHistoryButton';

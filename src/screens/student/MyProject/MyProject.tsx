@@ -4,8 +4,15 @@ import { useProjectMilestones } from '../../../hooks/useProjectMilestones';
 import { Layout } from '../../../components/layout';
 import { CreateProjectDialog } from '../../../components/project';
 import { MilestoneStatusButton } from '../../../components/milestone';
+import { DeliveryFormDialog } from '../../../components/delivery';
 import { Card, CardContent, Badge, Button, Spinner } from '../../../ui';
 import { formatDate } from '../../../utils/formatDate';
+import {
+  getMilestoneUrgency,
+  milestoneUrgencyBadgeVariant,
+  milestoneUrgencyLabel,
+  milestoneUrgencyDotColor,
+} from '../../../utils/milestoneUrgency';
 import type { Milestone } from '../../../types';
 import {
   MyProjectContainer,
@@ -37,28 +44,38 @@ const statusVariants: Record<string, 'info' | 'success' | 'error'> = {
   cancelled: 'error',
 };
 
-const milestoneColor: Record<string, string> = {
-  completed: '#22c55e',
-  pending: '#f59e0b',
-};
-
-function MilestoneItem({ milestone, projectId }: { milestone: Milestone; projectId: number }) {
-  const label = milestone.status === 'completed' ? 'Concluído' : 'Pendente';
+function MilestoneItem({
+  milestone,
+  projectId,
+  allMilestones,
+}: {
+  milestone: Milestone;
+  projectId: number;
+  allMilestones: Milestone[];
+}) {
+  const urgency = getMilestoneUrgency(milestone);
+  const isDone = milestone.status === 'completed';
   return (
     <MilestoneRow>
-      <MilestoneDot $color={milestoneColor[milestone.status] ?? '#94a3b8'} />
+      <MilestoneDot $color={milestoneUrgencyDotColor[urgency]} />
       <MilestoneContent>
         <MilestoneName>{milestone.title}</MilestoneName>
         {milestone.due_date && (
           <MilestoneDate>
-            {milestone.status === 'completed' ? 'Concluído em:' : 'Prazo:'}{' '}
-            {formatDate(milestone.due_date)}
+            {isDone ? 'Concluído em:' : 'Prazo:'} {formatDate(milestone.due_date)}
           </MilestoneDate>
         )}
       </MilestoneContent>
-      <Badge variant={milestone.status === 'completed' ? 'success' : 'warning'} size="sm">
-        {label}
+      <Badge variant={milestoneUrgencyBadgeVariant[urgency]} size="sm">
+        {milestoneUrgencyLabel[urgency]}
       </Badge>
+      <DeliveryFormDialog
+        projectId={projectId}
+        milestones={allMilestones}
+        defaultMilestoneId={milestone.id}
+        triggerLabel="Nova entrega"
+        triggerSize="sm"
+      />
       <MilestoneStatusButton milestone={milestone} projectId={projectId} />
     </MilestoneRow>
   );
@@ -106,6 +123,7 @@ export function MyProject() {
         <ProjectDescription>{project.description}</ProjectDescription>
 
         <ProjectMeta>
+          {project.knowledge_area && <MetaItem>Área: {project.knowledge_area}</MetaItem>}
           {project.start_date && <MetaItem>Início: {formatDate(project.start_date)}</MetaItem>}
           {project.expected_delivery_date && (
             <MetaItem>Entrega prevista: {formatDate(project.expected_delivery_date)}</MetaItem>
@@ -120,7 +138,12 @@ export function MyProject() {
             ) : (
               <MilestoneList>
                 {milestones.map((m) => (
-                  <MilestoneItem key={m.id} milestone={m} projectId={project.id} />
+                  <MilestoneItem
+                    key={m.id}
+                    milestone={m}
+                    projectId={project.id}
+                    allMilestones={milestones}
+                  />
                 ))}
               </MilestoneList>
             )}

@@ -3,6 +3,7 @@ import { deliveryService } from '../services/deliveryService';
 
 interface CreateDeliveryArgs {
   projectId: number;
+  milestoneId: number;
   title: string;
   description: string;
   deadline?: string;
@@ -11,8 +12,14 @@ interface CreateDeliveryArgs {
 export function useCreateDelivery() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ projectId, title, description, deadline }: CreateDeliveryArgs) =>
-      deliveryService.create({ project_id: projectId, title, description, deadline }),
+    mutationFn: ({ projectId, milestoneId, title, description, deadline }: CreateDeliveryArgs) =>
+      deliveryService.create({
+        project_id: projectId,
+        milestone_id: milestoneId,
+        title,
+        description,
+        deadline,
+      }),
     onSuccess: (_data, { projectId }) => {
       void queryClient.invalidateQueries({ queryKey: ['project-deliveries', projectId] });
       void queryClient.invalidateQueries({ queryKey: ['student-dashboard'] });

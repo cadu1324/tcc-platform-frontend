@@ -28,6 +28,8 @@ const studentRouteByType: Record<NotificationType, string> = {
   [NotificationType.MILESTONE_CREATED]: '/student/project',
   [NotificationType.MILESTONE_UPDATED]: '/student/project',
   [NotificationType.MESSAGE_RECEIVED]: '/student/messages',
+  [NotificationType.MILESTONE_DUE_SOON]: '/student/project',
+  [NotificationType.MILESTONE_OVERDUE]: '/student/project',
 };
 
 const messagesRouteByRole: Record<UserType, string> = {
@@ -47,6 +49,9 @@ function targetFor(notification: Notification, role: UserType): string {
   }
   if (role === 'student') {
     return studentRouteByType[notification.type] ?? '/student/dashboard';
+  }
+  if (notification.type === NotificationType.MILESTONE_OVERDUE) {
+    return '/admin/projects';
   }
   return '/admin/dashboard';
 }

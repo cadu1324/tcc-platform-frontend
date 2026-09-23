@@ -19,6 +19,7 @@ const StudentDashboard = lazy(() => loadStudent().then((m) => ({ default: m.Dash
 const MyProjects = lazy(() => loadStudent().then((m) => ({ default: m.MyProjects })));
 const MyProject = lazy(() => loadStudent().then((m) => ({ default: m.MyProject })));
 const Deliveries = lazy(() => loadStudent().then((m) => ({ default: m.Deliveries })));
+const StudentDeliveryVersions = lazy(() => loadStudent().then((m) => ({ default: m.DeliveryVersions })));
 const Feedbacks = lazy(() => loadStudent().then((m) => ({ default: m.Feedbacks })));
 const StudentMessages = lazy(() => loadStudent().then((m) => ({ default: m.Messages })));
 
@@ -29,12 +30,15 @@ const AdvisorProjectDetail = lazy(() =>
 );
 const AdvisorDeliveries = lazy(() => loadAdvisor().then((m) => ({ default: m.AdvisorDeliveries })));
 const ReviewDelivery = lazy(() => loadAdvisor().then((m) => ({ default: m.ReviewDelivery })));
+const AdvisorDeliveryVersions = lazy(() => loadAdvisor().then((m) => ({ default: m.DeliveryVersions })));
 const AdvisorMessages = lazy(() => loadAdvisor().then((m) => ({ default: m.Messages })));
 
 const AdminDashboard = lazy(() => loadAdmin().then((m) => ({ default: m.Dashboard })));
 const ManageUsers = lazy(() => loadAdmin().then((m) => ({ default: m.ManageUsers })));
 const UserDetail = lazy(() => loadAdmin().then((m) => ({ default: m.UserDetail })));
 const Reports = lazy(() => loadAdmin().then((m) => ({ default: m.Reports })));
+const NotificationSettings = lazy(() => loadAdmin().then((m) => ({ default: m.NotificationSettings })));
+const ProjectsMonitoring = lazy(() => loadAdmin().then((m) => ({ default: m.ProjectsMonitoring })));
 
 export function AppRoutes() {
   return (
@@ -49,6 +53,7 @@ export function AppRoutes() {
         <Route path="/student/projects" element={<PrivateRoute allowedRoles={['student']}><MyProjects /></PrivateRoute>} />
         <Route path="/student/project" element={<PrivateRoute allowedRoles={['student']}><MyProject /></PrivateRoute>} />
         <Route path="/student/deliveries" element={<PrivateRoute allowedRoles={['student']}><Deliveries /></PrivateRoute>} />
+        <Route path="/student/deliveries/:deliveryId/versions" element={<PrivateRoute allowedRoles={['student']}><StudentDeliveryVersions /></PrivateRoute>} />
         <Route path="/student/feedbacks" element={<PrivateRoute allowedRoles={['student']}><Feedbacks /></PrivateRoute>} />
         <Route path="/student/messages" element={<PrivateRoute allowedRoles={['student']}><StudentMessages /></PrivateRoute>} />
 
@@ -57,12 +62,15 @@ export function AppRoutes() {
         <Route path="/advisor/students/:projectId" element={<PrivateRoute allowedRoles={['advisor']}><AdvisorProjectDetail /></PrivateRoute>} />
         <Route path="/advisor/deliveries" element={<PrivateRoute allowedRoles={['advisor']}><AdvisorDeliveries /></PrivateRoute>} />
         <Route path="/advisor/review/:deliveryId" element={<PrivateRoute allowedRoles={['advisor']}><ReviewDelivery /></PrivateRoute>} />
+        <Route path="/advisor/deliveries/:deliveryId/versions" element={<PrivateRoute allowedRoles={['advisor']}><AdvisorDeliveryVersions /></PrivateRoute>} />
         <Route path="/advisor/messages" element={<PrivateRoute allowedRoles={['advisor']}><AdvisorMessages /></PrivateRoute>} />
 
         <Route path="/admin/dashboard" element={<PrivateRoute allowedRoles={['admin']}><AdminDashboard /></PrivateRoute>} />
         <Route path="/admin/users" element={<PrivateRoute allowedRoles={['admin']}><ManageUsers /></PrivateRoute>} />
         <Route path="/admin/users/:userId" element={<PrivateRoute allowedRoles={['admin']}><UserDetail /></PrivateRoute>} />
         <Route path="/admin/reports" element={<PrivateRoute allowedRoles={['admin']}><Reports /></PrivateRoute>} />
+        <Route path="/admin/notifications" element={<PrivateRoute allowedRoles={['admin']}><NotificationSettings /></PrivateRoute>} />
+        <Route path="/admin/projects" element={<PrivateRoute allowedRoles={['admin']}><ProjectsMonitoring /></PrivateRoute>} />
 
         <Route path="/" element={<RootRedirect />} />
         <Route path="*" element={<RootRedirect />} />

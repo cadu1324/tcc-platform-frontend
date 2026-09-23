@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button, Modal, Input } from '../../../ui';
+import { Button, Modal, Input, Select } from '../../../ui';
 import { useCreateDelivery } from '../../../hooks/useCreateDelivery';
+import type { Milestone } from '../../../types';
 import { FormFields, ErrorLine } from './DeliveryFormDialog.styles';
 
 const schema = z.object({
   title: z.string().min(3, 'Título deve ter pelo menos 3 caracteres'),
   description: z.string().min(10, 'Descrição deve ter pelo menos 10 caracteres'),
+  milestone_id: z.number({ error: 'Selecione o marco correspondente' }).min(1, 'Selecione o marco correspondente'),
   deadline: z.string().optional(),
 });
 
@@ -16,9 +18,19 @@ type FormData = z.infer<typeof schema>;
 
 interface DeliveryFormDialogProps {
   projectId: number;
+  milestones: Milestone[];
+  defaultMilestoneId?: number;
+  triggerLabel?: string;
+  triggerSize?: 'sm' | 'md' | 'lg';
 }
 
-export function DeliveryFormDialog({ projectId }: DeliveryFormDialogProps) {
+export function DeliveryFormDialog({
+  projectId,
+  milestones,
+  defaultMilestoneId,
+  triggerLabel = 'Nova entrega',
+  triggerSize = 'md',
+}: DeliveryFormDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { mutate, isPending, error } = useCreateDelivery();
   const {
@@ -26,7 +38,15 @@ export function DeliveryFormDialog({ projectId }: DeliveryFormDialogProps) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { milestone_id: defaultMilestoneId },
+  });
+
+  const milestoneOptions = milestones.map((milestone) => ({
+    value: milestone.id.toString(),
+    label: milestone.title,
+  }));
 
   function close() {
     setIsOpen(false);
@@ -37,6 +57,7 @@ export function DeliveryFormDialog({ projectId }: DeliveryFormDialogProps) {
     mutate(
       {
         projectId,
+        milestoneId: data.milestone_id,
         title: data.title,
         description: data.description,
         deadline: data.deadline || undefined,
@@ -47,7 +68,9 @@ export function DeliveryFormDialog({ projectId }: DeliveryFormDialogProps) {
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Nova entrega</Button>
+      <Button size={triggerSize} onClick={() => setIsOpen(true)} disabled={milestones.length === 0}>
+        {triggerLabel}
+      </Button>
 
       <Modal
         isOpen={isOpen}
@@ -65,6 +88,15 @@ export function DeliveryFormDialog({ projectId }: DeliveryFormDialogProps) {
         }
       >
         <FormFields>
+          <Select
+            label="Marco"
+            fullWidth
+            placeholder="Selecione o marco correspondente"
+            options={milestoneOptions}
+            defaultValue={defaultMilestoneId?.toString()}
+            {...register('milestone_id', { valueAsNumber: true })}
+            error={errors.milestone_id?.message}
+          />
           <Input
             label="Título"
             fullWidth

@@ -9,6 +9,7 @@ import { FormContainer, FormActions } from './ProjectForm.styles';
 const schema = z.object({
   title: z.string().min(3, 'Título deve ter pelo menos 3 caracteres'),
   description: z.string().min(10, 'Descrição deve ter pelo menos 10 caracteres'),
+  knowledge_area: z.string().min(3, 'Informe a área de conhecimento'),
   expected_delivery_date: z.string().min(1, 'Informe a data prevista'),
   advisor_id: z.number({ error: 'Selecione um orientador' }).min(1, 'Selecione um orientador'),
 });
@@ -56,6 +57,14 @@ export function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
         fullWidth
         {...register('description')}
         error={errors.description?.message}
+      />
+
+      <Input
+        label="Área de conhecimento"
+        fullWidth
+        placeholder="Ex.: Engenharia de Software"
+        {...register('knowledge_area')}
+        error={errors.knowledge_area?.message}
       />
 
       <Input

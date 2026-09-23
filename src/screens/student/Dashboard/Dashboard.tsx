@@ -4,6 +4,11 @@ import { Layout } from '../../../components/layout';
 import { CreateProjectDialog } from '../../../components/project';
 import { Card, CardContent, StatCard, Timeline, Avatar, Badge, Spinner } from '../../../ui';
 import { formatDate, daysUntil } from '../../../utils/formatDate';
+import {
+  getMilestoneUrgency,
+  milestoneUrgencyBadgeVariant,
+  milestoneUrgencyDotColor,
+} from '../../../utils/milestoneUrgency';
 import type { Milestone, Feedback } from '../../../types';
 import type { TimelineStep } from '../../../ui';
 import {
@@ -24,28 +29,28 @@ import {
   EmptyText,
 } from './Dashboard.styles';
 
-const milestoneColor: Record<string, string> = {
-  completed: '#22c55e',
-  pending: '#f59e0b',
-};
-
 function UpcomingMilestoneItem({ milestone }: { milestone: Milestone }) {
   const days = daysUntil(milestone.due_date);
-  const isLate = days !== null && days < 0;
-  const isSoon = days !== null && days >= 0 && days <= 7;
-  const badgeVariant = milestone.status === 'completed' ? 'success' : isLate ? 'error' : isSoon ? 'warning' : 'info';
-  const badgeText = milestone.status === 'completed' ? 'Entregue' : isLate ? 'Atrasado' : days !== null ? `${days}d` : 'Sem prazo';
+  const urgency = getMilestoneUrgency(milestone);
+  const badgeText =
+    milestone.status === 'completed'
+      ? 'Entregue'
+      : urgency === 'overdue'
+        ? 'Atrasado'
+        : days !== null
+          ? `${days}d`
+          : 'Sem prazo';
 
   return (
     <MilestoneRow>
-      <MilestoneDot $color={milestoneColor[milestone.status] ?? '#94a3b8'} />
+      <MilestoneDot $color={milestoneUrgencyDotColor[urgency]} />
       <MilestoneContent>
         <MilestoneTitle>{milestone.title}</MilestoneTitle>
         {milestone.due_date && (
           <MilestoneDate>Prazo: {formatDate(milestone.due_date)}</MilestoneDate>
         )}
       </MilestoneContent>
-      <Badge variant={badgeVariant} size="sm">{badgeText}</Badge>
+      <Badge variant={milestoneUrgencyBadgeVariant[urgency]} size="sm">{badgeText}</Badge>
     </MilestoneRow>
   );
 }

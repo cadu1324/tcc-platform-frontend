@@ -10,6 +10,7 @@ export interface Project {
   title: string;
   description: string;
   status: ProjectStatus;
+  knowledge_area: string | null;
   start_date: string | null;
   expected_delivery_date: string | null;
   student_id: number;
@@ -18,6 +19,7 @@ export interface Project {
   updated_at: string;
   /** Optional enrichments the backend may include on list responses. */
   student_name?: string;
+  advisor_name?: string | null;
   milestones_total?: number;
   milestones_completed?: number;
 }
@@ -25,6 +27,7 @@ export interface Project {
 export interface CreateProjectData {
   title: string;
   description: string;
+  knowledge_area: string;
   student_id: number;
   advisor_id: number;
   start_date?: string;
@@ -34,6 +37,7 @@ export interface CreateProjectData {
 export interface UpdateProjectData {
   title?: string;
   description?: string;
+  knowledge_area?: string;
   advisor_id?: number;
   status?: ProjectStatus;
   expected_delivery_date?: string;

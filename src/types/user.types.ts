@@ -38,7 +38,13 @@ export interface UpdateUserData {
 
 export interface AuthResponse {
   user: User;
-  token: string;
+  access_token: string;
+  refresh_token: string;
+}
+
+export interface RefreshTokenResponse {
+  access_token: string;
+  refresh_token: string;
 }
 
 export type AdvisorOption = Pick<User, 'id' | 'name'>;
