@@ -11,7 +11,6 @@ const schema = z.object({
   title: z.string().min(3, 'Título deve ter pelo menos 3 caracteres'),
   description: z.string().min(10, 'Descrição deve ter pelo menos 10 caracteres'),
   milestone_id: z.number({ error: 'Selecione o marco correspondente' }).min(1, 'Selecione o marco correspondente'),
-  deadline: z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -60,7 +59,6 @@ export function DeliveryFormDialog({
         milestoneId: data.milestone_id,
         title: data.title,
         description: data.description,
-        deadline: data.deadline || undefined,
       },
       { onSuccess: close },
     );
@@ -108,13 +106,6 @@ export function DeliveryFormDialog({
             fullWidth
             {...register('description')}
             error={errors.description?.message}
-          />
-          <Input
-            label="Prazo (opcional)"
-            type="date"
-            fullWidth
-            {...register('deadline')}
-            error={errors.deadline?.message}
           />
           {error && <ErrorLine>{error.message}</ErrorLine>}
         </FormFields>

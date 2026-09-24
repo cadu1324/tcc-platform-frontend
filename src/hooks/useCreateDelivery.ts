@@ -6,19 +6,17 @@ interface CreateDeliveryArgs {
   milestoneId: number;
   title: string;
   description: string;
-  deadline?: string;
 }
 
 export function useCreateDelivery() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ projectId, milestoneId, title, description, deadline }: CreateDeliveryArgs) =>
+    mutationFn: ({ projectId, milestoneId, title, description }: CreateDeliveryArgs) =>
       deliveryService.create({
         project_id: projectId,
         milestone_id: milestoneId,
         title,
         description,
-        deadline,
       }),
     onSuccess: (_data, { projectId }) => {
       void queryClient.invalidateQueries({ queryKey: ['project-deliveries', projectId] });
