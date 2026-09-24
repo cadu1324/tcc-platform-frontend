@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, Modal, Input, Select } from '../../../ui';
 import { useCreateDelivery } from '../../../hooks/useCreateDelivery';
-import type { Milestone } from '../../../types';
+import { MilestoneStatus, type Milestone } from '../../../types';
 import { FormFields, ErrorLine } from './DeliveryFormDialog.styles';
 
 const schema = z.object({
@@ -42,7 +42,11 @@ export function DeliveryFormDialog({
     defaultValues: { milestone_id: defaultMilestoneId },
   });
 
-  const milestoneOptions = milestones.map((milestone) => ({
+  const openMilestones = milestones.filter(
+    (milestone) => milestone.status !== MilestoneStatus.COMPLETED,
+  );
+
+  const milestoneOptions = openMilestones.map((milestone) => ({
     value: milestone.id.toString(),
     label: milestone.title,
   }));
@@ -66,7 +70,7 @@ export function DeliveryFormDialog({
 
   return (
     <>
-      <Button size={triggerSize} onClick={() => setIsOpen(true)} disabled={milestones.length === 0}>
+      <Button size={triggerSize} onClick={() => setIsOpen(true)} disabled={openMilestones.length === 0}>
         {triggerLabel}
       </Button>
 

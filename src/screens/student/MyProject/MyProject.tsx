@@ -68,13 +68,15 @@ function MilestoneItem({
       <Badge variant={milestoneUrgencyBadgeVariant[urgency]} size="sm">
         {milestoneUrgencyLabel[urgency]}
       </Badge>
-      <DeliveryFormDialog
-        projectId={projectId}
-        milestones={allMilestones}
-        defaultMilestoneId={milestone.id}
-        triggerLabel="Nova entrega"
-        triggerSize="sm"
-      />
+      {!isDone && (
+        <DeliveryFormDialog
+          projectId={projectId}
+          milestones={allMilestones}
+          defaultMilestoneId={milestone.id}
+          triggerLabel="Nova entrega"
+          triggerSize="sm"
+        />
+      )}
     </MilestoneRow>
   );
 }
