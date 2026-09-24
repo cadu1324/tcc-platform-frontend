@@ -11,7 +11,7 @@ export {
 export { formatDate, formatDateTime, formatRelativeDate, daysUntil } from './formatDate';
 export { formatFileSize } from './formatFileSize';
 export { saveFileAs } from './saveFile';
-export type { DownloadedFile as SavedDownloadedFile } from './saveFile';
+export type { DownloadedFile as SavedDownloadedFile, SaveOutcome } from './saveFile';
 
 export {
   getMilestoneUrgency,

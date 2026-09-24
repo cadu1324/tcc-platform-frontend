@@ -25,6 +25,8 @@ export { useNotificationSettings } from './useNotificationSettings';
 export { useUpdateNotificationSettings } from './useUpdateNotificationSettings';
 export { useDeliveryVersions } from './useDeliveryVersions';
 export { useDownloadDeliveryVersionFile } from './useDownloadDeliveryVersionFile';
+export { useDownloadStatus } from './useDownloadStatus';
+export type { DownloadStatus } from './useDownloadStatus';
 export { useAllProjects } from './useAllProjects';
 export { useAdvisorDashboard } from './useAdvisorDashboard';
 export { useAdvisorProjects } from './useAdvisorProjects';

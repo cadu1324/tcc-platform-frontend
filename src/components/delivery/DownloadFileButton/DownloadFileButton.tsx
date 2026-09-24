@@ -1,6 +1,7 @@
 import { Button } from '../../../ui';
 import type { ButtonProps } from '../../../ui';
 import { useDownloadDeliveryFile } from '../../../hooks/useDownloadDeliveryFile';
+import { useDownloadStatus, type DownloadStatus } from '../../../hooks/useDownloadStatus';
 
 interface DownloadFileButtonProps {
   deliveryId: number;
@@ -15,25 +16,25 @@ export function DownloadFileButton({
   size = 'sm',
   variant = 'outline',
 }: DownloadFileButtonProps) {
-  const { mutate, isPending, isError } = useDownloadDeliveryFile();
+  const mutation = useDownloadDeliveryFile();
+  const status = useDownloadStatus(mutation);
 
-  const label = isPending
-    ? 'Baixando...'
-    : isError
-      ? 'Erro ao baixar — tentar de novo'
-      : fileName
-        ? `Baixar ${fileName}`
-        : 'Baixar arquivo';
+  const label = {
+    idle: fileName ? `Baixar ${fileName}` : 'Baixar arquivo',
+    pending: 'Baixando...',
+    saved: 'Arquivo salvo ✓',
+    error: 'Erro ao baixar — tentar de novo',
+  } as const satisfies Record<DownloadStatus, string>;
 
   return (
     <Button
       type="button"
       size={size}
       variant={variant}
-      disabled={isPending}
-      onClick={() => mutate({ deliveryId, fileName })}
+      disabled={status === 'pending'}
+      onClick={() => mutation.mutate({ deliveryId, fileName })}
     >
-      {label}
+      {label[status]}
     </Button>
   );
 }

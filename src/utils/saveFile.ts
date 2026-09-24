@@ -58,6 +58,8 @@ export interface DownloadedFile {
   filename: string;
 }
 
+export type SaveOutcome = 'saved' | 'cancelled';
+
 /**
  * Opens the OS "Save As" dialog first (while the click gesture is still fresh) on
  * browsers that support it, then fetches the file; falls back to an <a download> click.
@@ -65,7 +67,7 @@ export interface DownloadedFile {
 export async function saveFileAs(
   suggestedName: string,
   fetchFile: () => Promise<DownloadedFile>,
-): Promise<void> {
+): Promise<SaveOutcome> {
   const picker = getSaveFilePicker();
 
   if (picker) {
@@ -73,16 +75,17 @@ export async function saveFileAs(
     try {
       handle = await picker({ suggestedName, types: pickerTypesFor(suggestedName) });
     } catch (error) {
-      if (isAbort(error)) return;
+      if (isAbort(error)) return 'cancelled';
       throw error;
     }
     const { blob } = await fetchFile();
     const writable = await handle.createWritable();
     await writable.write(blob);
     await writable.close();
-    return;
+    return 'saved';
   }
 
   const { blob, filename } = await fetchFile();
   anchorDownload(blob, suggestedName || filename);
+  return 'saved';
 }

@@ -1,6 +1,7 @@
 import { Badge, Button } from '../../../ui';
 import { formatDateTime, formatFileSize } from '../../../utils';
 import { useDownloadDeliveryVersionFile } from '../../../hooks/useDownloadDeliveryVersionFile';
+import { useDownloadStatus, type DownloadStatus } from '../../../hooks/useDownloadStatus';
 import type { DeliveryFileVersion } from '../../../types';
 import {
   VersionRow,
@@ -26,6 +27,13 @@ const versionStatusVariant: Record<string, 'default' | 'warning' | 'success' | '
   rejected: 'error',
 };
 
+const downloadLabel = {
+  idle: 'Baixar arquivo',
+  pending: 'Baixando...',
+  saved: 'Arquivo salvo ✓',
+  error: 'Erro ao baixar — tentar de novo',
+} as const satisfies Record<DownloadStatus, string>;
+
 interface DeliveryVersionRowProps {
   deliveryId: number;
   version: DeliveryFileVersion;
@@ -33,7 +41,8 @@ interface DeliveryVersionRowProps {
 }
 
 export function DeliveryVersionRow({ deliveryId, version, isCurrent }: DeliveryVersionRowProps) {
-  const { mutate: download, isPending } = useDownloadDeliveryVersionFile();
+  const mutation = useDownloadDeliveryVersionFile();
+  const status = useDownloadStatus(mutation);
 
   return (
     <VersionRow>
@@ -53,10 +62,12 @@ export function DeliveryVersionRow({ deliveryId, version, isCurrent }: DeliveryV
           type="button"
           size="sm"
           variant="outline"
-          disabled={isPending}
-          onClick={() => download({ deliveryId, versionId: version.id, fileName: version.file_name })}
+          disabled={status === 'pending'}
+          onClick={() =>
+            mutation.mutate({ deliveryId, versionId: version.id, fileName: version.file_name })
+          }
         >
-          {isPending ? 'Baixando...' : 'Baixar arquivo'}
+          {downloadLabel[status]}
         </Button>
       </VersionActions>
     </VersionRow>
