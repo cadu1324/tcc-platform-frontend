@@ -3,7 +3,6 @@ import { useMyProject } from '../../../hooks/useMyProject';
 import { useProjectMilestones } from '../../../hooks/useProjectMilestones';
 import { Layout } from '../../../components/layout';
 import { CreateProjectDialog } from '../../../components/project';
-import { MilestoneStatusButton } from '../../../components/milestone';
 import { DeliveryFormDialog } from '../../../components/delivery';
 import { Card, CardContent, Badge, Button, Spinner } from '../../../ui';
 import { formatDate } from '../../../utils/formatDate';
@@ -76,7 +75,6 @@ function MilestoneItem({
         triggerLabel="Nova entrega"
         triggerSize="sm"
       />
-      <MilestoneStatusButton milestone={milestone} projectId={projectId} />
     </MilestoneRow>
   );
 }
